@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "versioned-object-ai-collection",
+		"name": "Object AI - Versioned JSON APIs",
+		"description": "7 APIs for versioned JSON config management.\n\n**Client APIs (3):** Get JSON by platform + version\n**Admin APIs (4):** Create, List, Update, Delete versioned JSON files",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": "YOUR_MODEL_API_KEY_HERE",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Admin APIs",
+			"item": [
+				{
+					"name": "1. Create Version",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "key",
+									"value": "{{api_key}}",
+									"type": "text"
+								},
+								{
+									"key": "platform",
+									"value": "android",
+									"description": "android | ios | debug",
+									"type": "text"
+								},
+								{
+									"key": "version",
+									"value": "2.12.2",
+									"description": "Semantic version e.g. 2.12.2",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Select a .json file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/versions/create",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "versions", "create"]
+						},
+						"description": "Upload a new versioned JSON file for a platform.\n\n**Required fields:**\n- `key`: API key\n- `platform`: android, ios, or debug\n- `version`: e.g. 2.12.2\n- `file`: a .json file"
+					},
+					"response": []
+				},
+				{
+					"name": "2. List Versions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/versions/list",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "versions", "list"]
+						},
+						"description": "List all versioned JSON files.\n\nOptionally add `\"platform\": \"android\"` to filter by platform."
+					},
+					"response": []
+				},
+				{
+					"name": "2b. List Versions (filtered by platform)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\",\n    \"platform\": \"android\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/versions/list",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "versions", "list"]
+						},
+						"description": "List versions filtered by a specific platform (android, ios, or debug)."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Update Version",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "key",
+									"value": "{{api_key}}",
+									"type": "text"
+								},
+								{
+									"key": "platform",
+									"value": "android",
+									"description": "android | ios | debug",
+									"type": "text"
+								},
+								{
+									"key": "version",
+									"value": "2.12.2",
+									"description": "Version to update",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Select updated .json file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/versions/update",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "versions", "update"]
+						},
+						"description": "Replace the JSON file for an existing platform + version.\n\nThe version must already exist (use Create first)."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Delete Version",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\",\n    \"platform\": \"android\",\n    \"version\": \"2.12.2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/versions/delete",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "versions", "delete"]
+						},
+						"description": "Delete a versioned JSON file.\n\n**Required:** platform + version"
+					},
+					"response": []
+				}
+			],
+			"description": "Manage versioned JSON files — create, list, update, delete."
+		},
+		{
+			"name": "Client APIs",
+			"item": [
+				{
+					"name": "Get Android JSON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\",\n    \"version\": \"2.12.2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/android",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "android"]
+						},
+						"description": "Get JSON config for Android app.\n\nSends app version → returns matching (or nearest lower) config.\n\n**Test fallback:** Try version \"2.14.0\" when only 2.12.2 and 2.13.0 exist — should return 2.13.0."
+					},
+					"response": []
+				},
+				{
+					"name": "Get iOS JSON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\",\n    \"version\": \"2.12.2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/ios",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "ios"]
+						},
+						"description": "Get JSON config for iOS app.\n\nSends app version → returns matching (or nearest lower) config."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Debug JSON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{api_key}}\",\n    \"version\": \"2.12.2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/object-ai/debug",
+							"host": ["{{base_url}}"],
+							"path": ["object-ai", "debug"]
+						},
+						"description": "Get JSON config for Debug mode.\n\nSends app version → returns matching (or nearest lower) config."
+					},
+					"response": []
+				}
+			],
+			"description": "Client-facing APIs — the app calls these with its version number."
+		}
+	]
+}

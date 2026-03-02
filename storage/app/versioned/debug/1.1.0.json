@@ -1,0 +1,69 @@
+{
+        "providers": {
+            "shared": {
+                "baseUrl": "https://modelslab.com/api/v6/interior/object_removal",
+                "params": {
+                    "init_image": "",
+                    "object_name": "",
+                    "webhook": null,
+                    "base64": false,
+                    "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21"
+                }
+            },
+            "enterprise": {
+                "baseUrl": "https://modelslab.com/api/v1/enterprise/interior/object_removal",
+                "params": {
+                    "key": "r2gdw350fzvt",
+                    "init_image": "",
+                    "object_name": "",
+                    "base64": false,
+                    "webhook": null,
+                    "track_id": null
+                }
+            },
+            "3rd_party":{
+                "baseUrl": "https://modelslab.com/api/v7/images/image-to-image",
+                "params": {
+               "init_image": [],
+                "prompt": "",
+                "model_id": "seedream-5-lite-i2i",
+                "aspect_ratio": "1:1",
+                 "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21"
+                    
+                }
+            },
+            "bgRemover": {
+                "baseUrl": "https://modelslab.com/api/v6/image_editing/removebg_mask",
+                "params": {
+                    "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+                    "image": "",
+                    "alpha_matting": false,
+                    "post_process_mask": false,
+                    "only_mask": false,
+                    "inverse_mask": false,
+                    "seed": 123,
+                    "base64": false,
+                    "alpha_matting_foreground_threshold": 240,
+                    "alpha_matting_background_threshold": 20,
+                    "alpha_matting_erode_size": 5,
+                    "webhook": null,
+                    "track_id": 123
+                }
+            }
+        },
+        "userTiers": {
+            "free": {
+                "provider": "shared"
+            },
+            "pro": {
+                "provider": "shared"
+            }
+        },
+        "imgTransport": "imgbb",
+        "promoMode": false,
+        "promoDays": 1,
+        "freeLimits": {
+            "maxEdits": 4,
+            "resetAfterHours": 6
+        }
+    }

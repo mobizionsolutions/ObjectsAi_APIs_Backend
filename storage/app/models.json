@@ -1,0 +1,1374 @@
+[
+
+  {
+    "model_id": "none",
+    "output_type": "image",
+    "model_category": "legacy",
+    "model_name": "Default",
+    "description": "Text2Img open source AI Video Models on AI Images",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/CoZEdu1ZIk3dEYjQce5LvfqsTNJ2mj-metacmVhbHRpbWUtdGV4dC10by1pbWFnZS0xLndlYnA=-.webp",
+    "requires_tier": "free",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/realtime/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": true
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "negative_prompt",
+        "optional": true
+      },
+      {
+        "id": "aspect_ratio",
+        "constraints": {
+          "width": 1024,
+          "height": 1024
+        },
+        "optional": true
+      },
+      {
+        "id": "output_images",
+        "optional": true
+      }
+    ],
+    "params": {
+      "safety_checker": false,
+      "base64": false,
+      "instant_response": false,
+      "seed": null,
+      "track_id": null,
+      "webhook": null
+    }
+  },
+  {
+    "model_id": "realtime-img2img",
+    "output_type": "image",
+    "model_category": "legacy",
+    "model_name": "Img2Img",
+    "description": "Img2img is open source AI Video Models on AI Images",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/CGAOI3IUm0XmEeVQ7dpIHg2vMGK55v-metaVW50aXRsZWQgZGVzaWduICgxNikud2VicA==-.webp",
+    "requires_tier": "free",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/realtime/img2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": true
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "negative_prompt",
+        "optional": true
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "constraints": {
+          "width": 1024,
+          "height": 1024
+        },
+        "optional": true
+      },
+      {
+        "id": "output_images",
+        "optional": true
+      }
+    ],
+    "params": {
+      "safety_checker": false,
+      "strength": 0.7,
+      "base64": false,
+      "instant_response": false,
+      "seed": null,
+      "track_id": null,
+      "webhook": null
+    }
+  },
+  {
+    "model_id": "babes-kissable-lips-1-0",
+    "output_type": "image",
+    "model_category": "stable_diffusion",
+    "model_name": "Babes",
+    "description": "Babes Kissable Lips",
+    "screenshots": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/11ff8638-e105-4429-41c5-f6a9f5687200/width=1024/366232.jpeg",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "babes-kissable-lips-1-0",
+      "clip_skip": 1,
+      "guidance_scale": "7.5",
+      "safety_checker": true,
+      "watermark": "no"
+    }
+  },
+  {
+    "model_id": "fluxdev",
+    "output_type": "image",
+    "model_category": "lora",
+    "model_name": "Rowena",
+    "description": "House Of CB Collection",
+    "screenshots": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/36fce907-efc6-4b7c-a122-a6c421a59eab/width=1024/8567586.jpeg",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "fluxdev",
+      "lora_model": "dj-cyberpunk-style-character-image-generation-v1-0",
+      "guidance_scale": "7.5",
+      "safety_checker": true,
+      "scheduler": "DPMSolverMultistepScheduler",
+      "num_inference_steps": "31"
+    }
+  },
+  {
+    "model_id": "realistic-blend-sdxl-v2-0",
+    "output_type": "image",
+    "model_category": "legacy",
+    "model_name": "Realistic",
+    "description": "House Of CB Collection",
+    "screenshots": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6419481d-1de0-4ffa-b87d-90dad5b2161c/width=896/86203171.jpeg",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "realistic-blend-sdxl-v2-0",
+      "seed": null,
+      "base64": false,
+      "webhook": null,
+      "track_id": null,
+      "safety_checker": true
+    }
+  },
+  {
+    "model_id": "anythingv3-fp16",
+    "output_type": "image",
+    "model_category": "stable_diffusion",
+    "model_name": "QGO 10b",
+    "description": "House Of CB Collection",
+    "screenshots": "https://assets.modelslab.com/generations/41de1454-fe82-4029-b16f-81881b55ba92-0.png",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "anythingv3-fp16",
+      "seed": null,
+      "base64": false,
+      "webhook": null,
+      "track_id": null,
+      "safety_checker": true
+    }
+  },
+    {
+    "model_id": "flux-kontext-dev",
+    "output_type": "image",
+    "model_category": "public",
+    "model_name": "Flux Kontext",
+    "description": "FLUX Kontext DEV is an in-context image generation API that lets you create, edit, and transform images using text with high consistency.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/A3tMpcH1U9p0TcYJDcFJIoFw5hOReQ-metaZmx1eCBrb3RleHIgZGV2LndlYnA=-.webp",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/img2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "init_image_2",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "flux-kontext-dev",
+      "num_inference_steps": "28",
+      "strength": "0.7",
+      "scheduler": "DPMSolverMultistepScheduler",
+      "guidance": "2.5"
+    }
+  },
+  {
+    "model_id": "dark-sushi-mix-vid",
+    "output_type": "image",
+    "model_category": "public",
+    "model_name": "Dark Sushi",
+    "description": "Dark Sushi is an open source AI Video Models on AI Videos",
+    "screenshots": "https://aiartistpro.app/wp-content/uploads/app_assets/VideoCustomModel/dark-sushi-mix-vid.png",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/video/text2video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "dark-sushi-mix-vid",
+      "guidance_scale": 4,
+      "clip_skip": null,
+      "upscale_height": 1024,
+      "upscale_width": 1024,
+      "upscale_strength": 0.7,
+      "upscale_guidance_scale": 4,
+      "upscale_num_inference_steps": 20,
+      "use_improved_sampling": false,
+      "improved_sampling_seed": null
+    }
+  },
+    {
+    "model_id": "fluxdev",
+    "output_type": "image",
+    "model_category": "public",
+    "model_name": "Ghibli Art",
+    "description": "Ghibli Art Style API transforms your images into dreamy, hand-drawn visuals inspired by Studio Ghibli’s iconic art style.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/VK6Rs3fw0awhmhnPAjgJ2msT5CDH3k-metaZ2hpYmxpLXN0eWxlLTIud2VicA==-.webp",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v5/controlnet",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "fluxdev",
+      "steps": "20",
+      "controlnet_type": "ghibli",
+      "controlnet_model": "ghibli"
+    }
+  },
+  {
+    "model_id": "flux",
+    "output_type": "image",
+    "model_category": "public",
+    "model_name": "FLUX Text",
+    "description": "Flux Text-to-Image is a multilingual AI that transforms text prompts into high-quality images in styles like photorealism, sketches, paintings, 3D renders, and abstract art",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/ecQpUSRhF8rkHLMKKvEpKpwPvYXj8E-metaUHJvbXB0LndlYnA=-.webp",
+    "requires_tier": "pro",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/images/text2img",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "flux",
+      "clip_skip": 1,
+      "guidance_scale": "7.5",
+      "safety_checker": true,
+      "watermark": "no"
+    }
+  },
+    {
+    "model_id": "nano-banana",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Nano Banana",
+    "description": "Create and edit images with Google's most advanced model.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/doWsnXYKO2XVpCWoJNiATPEHTQA5sG-metaVGV4dC10by1JbWFnZS53ZWJw-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "10",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+  
+      "model_id": "nano-banana"
+    }
+  },
+   {
+    "model_id": "imagen-3",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Google Imagen",
+    "description": "Google Imagen",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/LSuJ2g3LjFVSD00kj9roOF56HOiXP9-metaaW1hZ2VuLTMtdGh1bWJuYWlsLndlYnA=-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "10",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "imagen-3"
+    }
+  },
+  {
+    "model_id": "seedream-t2i",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Seedream",
+    "description": "Text to Image",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/96K86E2x2B37Jpu1qm8d0R7EERlsj1-metaVW50aXRsZWQgZGVzaWduICgyNikud2VicA==-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "8",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+   
+      "model_id": "seedream-t2i"
+    }
+  },
+  {
+    "model_id": "imagen-4",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Google Imagen4",
+    "description": "Text to Image -The Imagen 4 API lets you create high quality images in seconds, using text prompt to guide the generation. Note: Maximum prompt length is 480 tokens.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/IoXIhWJNuQUnYe5gY8Ax0qvrH9h6lw-metaMjc0NWRkNzAtMmIxYy00ZGNhLTg3ZTAtZWY2OWZjMDc5ZTJjLndlYnA=-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "10",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "model_id",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio_2",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "imagen-4"
+    }
+  },
+  {
+    "model_id": "flux-kontext-pro",
+    "output_type": "image",
+    "model_category": "public",
+    "model_name": "Bfl Flux",
+    "description": "FLUX.1 Kontext [pro] is a model designed for advanced Image Editing. Unlike other models, you don’t need to create complex workflows to achieve this - Flux.1 Kontext [pro] handles it just by writing prompt",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/pobY060FF9VpKswP3BP3rd7RDntnpc-metad2ViLndlYnA=-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "10",
+    "endpoint": "https://modelslab.com/api/v7/images/image-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio_2",
+        "optional": false
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "flux-kontext-pro"
+    }
+  },
+  {
+    "model_id": "gen4_image",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Runway_ml Gen4",
+    "description": "Runway ML",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/2IzVyS5rtc8qAAptd8bV8RtcZUCAqC-metaQWRkIGEgc3ViaGVhZGluZyAoMikud2VicA==-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "19",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio_2",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+   
+      "model_id": "gen4_image"
+    }
+  },
+  {
+    "model_id": "seededit-i2i",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Seededit",
+    "description": "ByteDance SeedEdit-v3.0 is a versatile AI model built for high-quality visual editing across games, ads, e-commerce, education, and film production—delivering fast, creative, and precise results.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/MxpuWHRnYiooYe8M8ewQs4mIz8vZin-metaMV8zVHM2b1l0Z092b0dtRVRzaE9NYnhnLmpwZw==-.jpg",
+    "requires_tier": "ultra",
+    "credit_cost": "9",
+    "endpoint": "https://modelslab.com/api/v7/images/image-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "seededit-i2i"
+    }
+  },
+  {
+    "model_id": "imagen-4.0-fast-generate",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Imagen4 Fast",
+    "description": "Imagen 4.0 Fast (Preview 06-06) is the speed-optimized version designed for rapid, low-latency image generation. It delivers realistic, high-quality visuals and preview-only feature ideal for prototyping and quick iterations.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/ICcAhhu3uQAr8Zc6zuODIGuKyyJHPM-metaRmFzdC1lemdpZi5jb20tcG5nLXRvLXdlYnAtY29udmVydGVyLndlYnA=-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "9",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+       {
+        "id": "aspect_ratio",
+        
+        "optional": true,
+        "param":[{  
+                    "key": "aspect_ratio",
+                    "type": "String",
+                    "default": "16:9"
+                }],
+      "options": [
+                "1:1",
+                "16:9",
+                "4:3",
+                "3:4",
+                "9:16"
+            ]
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "imagen-4.0-fast-generate"
+    }
+  },
+  {
+    "model_id": "imagen-4.0-ultra",
+    "output_type": "image",
+    "model_category": "3rd-party",
+    "model_name": "Google Imagen",
+    "description": "Imagen 4.0 Ultra (Preview 06-06) is Google’s highest-fidelity text-to-image model, producing ultra-realistic visuals with precise prompt adherence, person generation, and multiple aspect ratios—ideal for detailed, high-quality imagery.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/7CiYnakk8ntBuDjgT7KQgTr3Ic33ep-metaRmFzdCAoMSkud2VicA==-.webp",
+    "requires_tier": "ultra",
+    "credit_cost": "16",
+    "endpoint": "https://modelslab.com/api/v7/images/text-to-image",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio_2",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "imagen-4.0-ultra"
+    }
+  },
+
+
+
+
+
+
+  {
+    "model_id": "none",
+    "output_type": "video",
+    "model_category": "legacy",
+    "model_name": "Default",
+    "description": "Text2Video is open source AI Video Models on AI Videos",
+    "screenshots": "https://mintcdn.com/mod/i8dYICFkuz1vpdrI/images/video-api/assets/images/Text-to-video-059ae4e254324cdd6b271d791167cb35.jpg?w=840&fit=max&auto=format&n=i8dYICFkuz1vpdrI&q=85&s=9007364d08e130374496aa36f40043b3",
+    "requires_tier": "free",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/video/text2video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "negative_prompt",
+        "optional": true
+      },
+      {
+        "id": "aspect_ratio",
+        "constraints": {
+          "width": 512,
+          "height": 512
+        },
+        "optional": true
+      }
+    ],
+    "params": {
+      "seed": null,
+      "num_frames": 16,
+      "num_inference_steps": 20,
+      "fps": 16,
+      "output_type": "mp4",
+      "instant_response": false,
+      "temp": false,
+      "guidance_scale": 4,
+      "clip_skip": null,
+      "upscale_height": 1024,
+      "upscale_width": 1024,
+      "upscale_strength": 0.7,
+      "upscale_guidance_scale": 4,
+      "upscale_num_inference_steps": 20,
+      "use_improved_sampling": false,
+      "improved_sampling_seed": null
+    }
+  },
+  {
+    "model_id": "video-img2video",
+    "output_type": "video",
+    "model_category": "legacy",
+    "model_name": "Img2Video",
+    "description": "Image2Video is open source AI Video Models on AI Videos",
+    "screenshots": "https://mintcdn.com/mod/i8dYICFkuz1vpdrI/images/video-api/assets/images/Image-to-video-06907dcc4363b727c589be0243af41f4.jpg?w=840&fit=max&auto=format&n=i8dYICFkuz1vpdrI&q=85&s=f49dcbcb13167d5b3af538d169fcd33a",
+    "requires_tier": "free",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/video/img2video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "negative_prompt",
+        "optional": true
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "constraints": {
+          "width": 512,
+          "height": 512
+        },
+        "optional": true
+      }
+    ],
+    "params": {
+      "min_guidance_scale": 1,
+      "max_guidance_scale": 3,
+      "motion_bucket_id": 127,
+      "noise_aug_strength": 0.7,
+      "latent_interpolation_method": "lerp",
+      "clip_skip": null,
+      "upscale_height": 1024,
+      "upscale_width": 1024,
+      "upscale_strength": 0.7,
+      "upscale_guidance_scale": 4,
+      "upscale_num_inference_steps": 20,
+      "use_improved_sampling": false,
+      "improved_sampling_seed": null,
+      "seed": null,
+      "num_frames": 16,
+      "num_inference_steps": 20,
+      "fps": 16,
+      "output_type": "mp4",
+      "instant_response": false,
+      "temp": false
+    
+    }
+  },
+  {
+    "model_id": "zeroscope",
+    "output_type": "video",
+    "model_category": "public",
+    "model_name": "Zeroscope",
+    "description": "Zeroscope is an open source AI Video Models on AI Videos",
+    "screenshots": "https://aiartistpro.app/wp-content/uploads/app_assets/VideoCustomModel/zeroscope.png",
+    "requires_tier": "free",
+    "credit_cost": "0",
+    "endpoint": "https://modelslab.com/api/v6/video/text2video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "output_images",
+        "optional": false
+      },
+      {
+        "id": "negative_prompt",
+        "optional": false
+      },
+      {
+        "id": "aspect_ratio",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "zeroscope",
+      "guidance_scale": 4,
+      "clip_skip": null,
+      "upscale_height": 1024,
+      "upscale_width": 1024,
+      "upscale_strength": 0.7,
+      "upscale_guidance_scale": 4,
+      "upscale_num_inference_steps": 20,
+      "use_improved_sampling": false,
+      "improved_sampling_seed": null
+    }
+  },
+  {
+    "model_id": "wan2.2",
+    "output_type": "video",
+    "model_category": "public",
+    "model_name": "Wan 2.2",
+    "description": "Text To Video. Enter prompt for the video you want to generate and click on generate",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/dUcBiQ0BJDZRWJEo20QwP3PNPJaznR-metaZXpnaWYtNzI1Zjk4MDBmZjBhODMuZ2lm-.gif",
+    "requires_tier": "premium",
+    "credit_cost": 0,
+    "endpoint": "https://modelslab.com/api/v6/video/text2video_ultra",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+        {
+       "id": "negative_prompt",
+       "optional": true
+        }
+      
+    ],
+    "params": {
+      "model_id": "wan2.2",
+      "portrait": true,
+      "output_type": "mp4",
+       "fps": "18",
+       "num_frames": "92",
+       "resolution": "480"
+      
+    }
+  },
+  {
+    "model_id": "face_swap",
+    "output_type": "video",
+    "model_category": "public",
+    "model_name": "FaceSwap",
+    "description": "The Specific Video Swap endpoint lets you replace a selected face in a video using a reference image, while keeping all other faces unchanged.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/j13N5mZkAxaP7PX3WHaOparonmeQfc-metaSnhaOHNZVHhVUW9rY2ExS2RpVUZENjY3bWJLMEZ0LW1ldGFaR1ZsY0daaGEyVXRjR3hoZVdkeWIzVnVaQzFqWVhKa0xuZGxZbkE9LVsxXS53ZWJw-.webp",
+    "requires_tier": "premium",
+    "credit_cost": 0,
+    "endpoint": "https://modelslab.com/api/v6/deepfake/specific_video_swap",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      
+  
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "init_image",
+        "optional": false,
+        "params":[{
+                    "key": "reference_image",
+                    "type": "String",
+                    "default": null
+                }]
+      },
+      {
+        "id": "init_video",
+        "optional": false
+      }
+    ],
+    "params": {
+      "watermark": false,
+      "output_format": "mp4"
+    }
+  },
+   {
+    "model_id": "deep_fake_MultiFace",
+    "output_type": "video",
+    "model_category": "public",
+    "model_name": "MultiFace",
+    "description": "Multiface Deepfake allows swapping all detected faces in a video with faces from an reference image.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/v1Lbx9bPoWEGiKharX5fqFNJaxc7Sh-metaR29FbmhhbmNlQUktVmlkZW90b3ZpZGVvSW1hZ2VlbmhhbmNlcmFuZHVwc2NhbGVyLWV6Z2lmLmNvbS1jdXQuZ2lm-.gif",
+    "requires_tier": "premium",
+    "credit_cost": 0,
+    "endpoint": "https://modelslab.com/api/v6/deepfake/specific_video_swap",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+    
+      {
+        "id": "init_image",
+        "optional": false
+      },
+      {
+        "id": "init_video",
+        "optional": false
+      }
+    ],
+    "params": {
+      "watermark": false,
+      "output_format": "mp4"
+    }
+  },
+  {
+    "model_id": "veo-3.0-fast-generate",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "Veo 3",
+    "description": "Veo 3 Fast by Google is a high-speed AI video generation model that transforms text or image prompts into stunning 1080p videos with native audio. Optimized for quick turnaround, it’s ideal for creators needing rapid, high-quality content production.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/OfE1wcbBWXmjJsvI0e7dbcXVxpKODS-metadmVvM2Zhc3R0aHVtYm5haWxmaW5hbC1lemdpZi5jb20tdmlkZW8tdG8tZ2lmLWNvbnZlcnRlci5naWY=-.gif",
+    "duration": "8",
+    "requires_tier": "ultra",
+    "credit_cost": 824,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/text-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "enhance_prompt",
+        "optional": true
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "negative_prompt",
+        "optional": true
+      }
+    ],
+    "params": {
+        "aspect_ratio": "16:9",
+        "model_id": "veo-3.0-fast-generate",
+        "duration": "8",
+        "generate_audio": true
+    }
+  },
+  {
+    "model_id": "seedance-i2v",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "Seedance",
+    "description": "Transform your ideas into stunning videos with Seedance AI video generation. Powered by ByteDance's advanced Seedance 1.0 Pro model, generate high-quality videos from image with cinematic camera movements, multi-shot storytelling capability",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/Pv7PncJMbiaXFzwrMgmdRnZRzH0YcK-metaSW1hZ2UxLWV6Z2lmLmNvbS1yZXNpemUuZ2lm-.gif",
+    "duration": "5",
+    "requires_tier": "ultra",
+    "credit_cost": 60,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/image-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      }
+    ],
+    "params": {
+     "model_id": "seedance-i2v"
+    }
+  },
+  {
+    "model_id": "gen4_aleph",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "Gen 4",
+    "description": "Gen-4 Aleph is Runway’s AI model is Future of VFX, that edits and transforms videos from prompts, allowing style changes, object edits, and scene adjustments with smooth, consistent motion.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/kaeJg59sfvHeKjjdLsEsjNaCjrgq6l-metacnVud2F5LWdlbi00LWFsZXBoWzFdLndlYnA=-.webp",
+    "duration": "10",
+    "requires_tier": "ultra",
+    "credit_cost": 390,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/video-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "init_video",
+        "optional": false
+      }
+    ],
+    "params": {
+      "aspect_ratio": "1280:720",
+     "public_figure_threshold": "low",
+     "model_id": "gen4_aleph"
+    }
+  },
+  {
+    "model_id": "gen4_turbo",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "Runway 4",
+    "description": "Runaway ML/Gen4 turbo",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/eFhMQi5YVsTZuvyA2fPk6ffhrZZsWK-metaUldfSEVBREVSX1YyLTIxLWV6Z2lmLmNvbS12aWRlby10by1naWYtY29udmVydGVyLmdpZg==-.gif",
+    "duration": "10",
+    "requires_tier": "ultra",
+    "credit_cost": 390,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/image-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "init_image",
+        "optional": false
+      }
+    ],
+    "params": {
+      "model_id": "gen4_turbo",
+      "portrait": true
+    }
+  },
+  {
+    "model_id": "seedance-t2v",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "seedance",
+    "description": "Transform your ideas into stunning videos with Seedance AI video generation. Powered by ByteDance's advanced Seedance 1.0 Pro model, generate high-quality videos from text prompts with cinematic camera movements, multi-shot storytelling capability.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/8rhpwFocr6HdUHAscK4usXdLvuZ0jw-metaZXpnaWYtMzUwOWRiYTUyMzc5ZGUuZ2lm-.gif",
+    "duration": "5",
+    "requires_tier": "ultra",
+    "credit_cost": 60,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/text-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      },
+      {
+        "id": "aspect_ratio",
+        
+        "optional": true,
+        "param":[{  
+                    "key": "aspect_ratio",
+                    "type": "String",
+                    "default": "16:9"
+                }],
+      "options": [
+                "1:1",
+                "16:9",
+                "4:3",
+                "9:21"
+            ]
+      }
+    ],
+    "params": {
+      "model_id": "seedance-t2v",
+      "resolution": "720p",
+      "camera_fixed": false
+    }
+  },
+  {
+    "model_id": "veo2",
+    "output_type": "video",
+    "model_category": "3rd-party",
+    "model_name": "Veo 2",
+    "description": "Veo 2 by Google is a cutting-edge AI video generation model that creates cinematic, high-quality videos from text or image prompts & Image to Video.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/nSLRn7ktZpofv8WmdVOCoAK0RZpflg-metaU3R5bGl6ZWQzRHN0b25ld2F0ZXJ3ZWxsd2l0aGJyaWNrYmFzZXdvb2RlbmNyYW5rcm9wZWFuZGJlaWdlc2xhbnRlZHJvb2YuTG93LXBvbHljYXJ0b29uc3R5bGVnYW1lLXJlYWR5Mi1lemdpZi5jb20tdmlkZW8tdG8tZ2lmLWNvbnZlcnRlci5naWY=-.gif",
+    "requires_tier": "premium",
+    "credit_cost": 1128,
+    "endpoint": "https://modelslab.com/api/v7/video-fusion/text-to-video",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "model_id": "veo2",
+      "portrait": false
+    }
+  },
+
+
+
+  {
+    "model_id": "text_to_3d",
+    "output_type": "3d",
+    "model_category": "public",
+    "model_name": "Default",
+    "description": "The Text-to-3D endpoint creates a 3D object based on a text description.",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/GLcMmk7ASVW5V5epcTdXh6ynXxVD87-metaU3R5bGl6ZWQzRHN0b25ld2F0ZXJ3ZWxsd2l0aGJyaWNrYmFzZXdvb2RlbmNyYW5rcm9wZWFuZGJlaWdlc2xhbnRlZHJvb2YuTG93LXBvbHljYXJ0b29uc3R5bGVnYW1lLXJlYWR5LWV6Z2lmLmNvbS12aWRlby10by1naWYtY29udmVydGVyLmdpZg==-.gif",
+    "requires_tier": "free",
+    "credit_cost": 0,
+    "endpoint": "https://modelslab.com/api/v6/3d/text_to_3d",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "prompt",
+        "optional": false
+      },
+      {
+        "id": "prompt_templates",
+        "optional": true
+      }
+    ],
+    "params": {
+      "foreground_ratio": "0.84",
+      "resolution": "512",
+      "output_format": "glb"
+    }
+  },
+  {
+    "model_id": "image_to_3d",
+    "output_type": "3d",
+    "model_category": "public",
+    "model_name": "image_to_3d",
+    "description": "The Image to 3D API generates a 3D character from an input image",
+    "screenshots": "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/livewire-tmp/RCVaP5ZSBKgcoJUQQbA2rJrT0Tareo-metaU3R5bGl6ZWQzRHN0b25ld2F0ZXJ3ZWxsd2l0aGJyaWNrYmFzZXdvb2RlbmNyYW5rcm9wZWFuZGJlaWdlc2xhbnRlZHJvb2YuTG93LXBvbHljYXJ0b29uc3R5bGVnYW1lLXJlYWR5MS1lemdpZi5jb20tdmlkZW8tdG8tZ2lmLWNvbnZlcnRlci5naWY=-.gif",
+    "requires_tier": "free",
+    "credit_cost": 0,
+    "endpoint": "https://modelslab.com/api/v6/3d/image_to_3d",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "inputs": [
+      {
+        "id": "init_image",
+        "optional": false,
+       "params": [
+                {
+                    "key": "image",
+                    "type": "String",
+                    "default": null
+                }
+            ]
+      }
+    ],
+    "params": {
+     "output_format": "glb"
+    }
+  }
+
+
+
+
+]
