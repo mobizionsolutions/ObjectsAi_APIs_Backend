@@ -14,43 +14,19 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: 🔍 Validate Secrets
-        run: |
-          if [ -z "${{ secrets.SERVER }}" ]; then
-            echo "❌ SERVER secret is missing"
-            exit 1
-          fi
-
-          if [ -z "${{ secrets.USERNAME }}" ]; then
-            echo "❌ USERNAME secret is missing"
-            exit 1
-          fi
-
-          if [ -z "${{ secrets.PASSWORD }}" ]; then
-            echo "❌ PASSWORD secret is missing"
-            exit 1
-          fi
-
-          if [ -z "${{ secrets.TARGET_DIR }}" ]; then
-            echo "❌ TARGET_DIR secret is missing"
-            exit 1
-          fi
-
-          echo "✅ All required secrets are present"
-
       - name: 🔒 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+          protocol: ftp
+          port: 21
           local-dir: ./
           server-dir: ${{ secrets.TARGET_DIR }}
           exclude: |
             **/.git*
             **/.env
             **/node_modules/**
-            **/vendor/**
             **/tests/**
-            storage/
           dry-run: false
