@@ -1,4 +1,4 @@
-name: Laravel FTP Deploy
+name: 🚀 FTP Deploy Laravel App
 
 on:
   push:
@@ -6,43 +6,27 @@ on:
       - main
 
 jobs:
-  deploy:
+  ftp-deploy:
+    name: Deploy via FTP
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          extensions: mbstring, pdo, xml, bcmath, curl
-
-      - name: Install Composer Dependencies
-        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-
-      - name: Build Laravel Cache
-        run: |
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-
-      # 🔎 VERIFY SECRET ACCESS
-      - name: Verify FTP Secret Access
-        run: |
-          if [ -z "${{ secrets.FTP_SERVER }}" ]; then
-            echo "FTP_SERVER is EMPTY"
-            exit 1
-          else
-            echo "FTP_SERVER is PRESENT"
-          fi
-
-      - name: Deploy via FTP
+      - name: 🔒 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "./"
-          server-dir: "objectsai.app/objectsaideploy/"
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          exclude: |
+            **/.git*
+            **/.env
+            **/node_modules/**
+            **/vendor/**
+            **/tests/**
+            storage/
+          dry-run: false
