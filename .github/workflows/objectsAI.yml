@@ -20,22 +20,23 @@ jobs:
           extensions: mbstring, pdo, xml, bcmath, curl
 
       - name: Install Composer Dependencies
-        run: composer install --no-dev --prefer-dist --no-interaction
-
-      - name: Copy Environment File
-        run: |
-          if [ ! -f .env ]; then
-            cp .env.example .env
-          fi
-
-      - name: Generate Laravel Key
-        run: php artisan key:generate
+        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
       - name: Build Laravel Cache
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
+
+      # 🔎 VERIFY SECRET ACCESS
+      - name: Verify FTP Secret Access
+        run: |
+          if [ -z "${{ secrets.FTP_SERVER }}" ]; then
+            echo "FTP_SERVER is EMPTY"
+            exit 1
+          else
+            echo "FTP_SERVER is PRESENT"
+          fi
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
