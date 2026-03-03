@@ -16,23 +16,23 @@ jobs:
 
       - name: 🔍 Validate Secrets
         run: |
-          if [ -z "${{ secrets.FTP_SERVER }}" ]; then
-            echo "❌ FTP_SERVER secret is missing"
+          if [ -z "${{ secrets.SERVER }}" ]; then
+            echo "❌ SERVER secret is missing"
             exit 1
           fi
 
-          if [ -z "${{ secrets.FTP_USERNAME }}" ]; then
-            echo "❌ FTP_USERNAME secret is missing"
+          if [ -z "${{ secrets.USERNAME }}" ]; then
+            echo "❌ USERNAME secret is missing"
             exit 1
           fi
 
-          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
-            echo "❌ FTP_PASSWORD secret is missing"
+          if [ -z "${{ secrets.PASSWORD }}" ]; then
+            echo "❌ PASSWORD secret is missing"
             exit 1
           fi
 
-          if [ -z "${{ secrets.FTP_TARGET_DIR }}" ]; then
-            echo "❌ FTP_TARGET_DIR secret is missing"
+          if [ -z "${{ secrets.TARGET_DIR }}" ]; then
+            echo "❌ TARGET_DIR secret is missing"
             exit 1
           fi
 
@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           local-dir: ./
-          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          server-dir: ${{ secrets.TARGET_DIR }}
           exclude: |
             **/.git*
             **/.env
