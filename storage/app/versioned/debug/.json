@@ -1,0 +1,40 @@
+ {
+        "providers": {
+            "shared": {
+                "baseUrl": "https://modelslab.com/api/v6/interior/object_removal",
+                "params": {
+                    "init_image": "",
+                    "object_name": "",
+                    "webhook": null,
+                    "base64": false,
+                    "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21"
+                }
+            },
+            "enterprise": {
+                "baseUrl": "https://modelslab.com/api/v1/enterprise/interior/object_removal",
+                "params": {
+                    "key": "r2gdw350fzvt",
+                    "init_image": "",
+                    "object_name": "",
+                    "base64": false,
+                    "webhook": null,
+                    "track_id": null
+                }
+            }
+        },
+        "userTiers": {
+            "free": {
+                "provider": "enterprise"
+            },
+            "pro": {
+                "provider": "enterprise"
+            }
+        },
+        "imgTransport": "imgbb",
+        "promoMode": false,
+        "promoDays": 1,
+        "freeLimits": {
+            "maxEdits": 5,
+            "resetAfterHours": 8
+        }
+    }
