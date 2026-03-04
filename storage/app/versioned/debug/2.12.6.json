@@ -34,7 +34,7 @@
         "promoMode": false,
         "promoDays": 1,
         "freeLimits": {
-            "maxEdits": 4,
+            "maxEdits": 5,
             "resetAfterHours": 8
         }
     }
