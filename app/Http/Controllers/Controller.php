@@ -13,12 +13,27 @@ class Controller extends BaseController
     {
         $key = $request->input('organization_key'); // Get key from JSON body
 
+        // load organizations from environment variable
+        // expected format: { "organizations": [ {"organization_name": "...", "organization_key": "..."}, ... ] }
+        $orgJson = env('ORGANIZATIONS');
+        $valid = [];
+        if ($orgJson) {
+            $data = json_decode($orgJson, true);
+            if (is_array($data) && isset($data['organizations']) && is_array($data['organizations'])) {
+                foreach ($data['organizations'] as $org) {
+                    if (isset($org['organization_key'])) {
+                        $valid[] = $org['organization_key'];
+                    }
+                }
+            }
+        }
+
         logger([
             'received_key' => $key,
-            'env_key' => env('MODEL_API_KEY'),
+            'valid_keys'   => $valid,
         ]);
 
-        if (!$key || $key !== env('MODEL_API_KEY')) {
+        if (!$key || !in_array($key, $valid, true)) {
             throw new HttpResponseException(response()->json([
                 'status' => false,
                 'message' => 'Unauthorized – invalid or missing API key',
