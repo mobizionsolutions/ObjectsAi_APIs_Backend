@@ -35,6 +35,6 @@
         "promoDays": 1,
         "freeLimits": {
             "maxEdits": 5,
-            "resetAfterHours": 8
+            "resetAfterHours": 3
         }
     }
