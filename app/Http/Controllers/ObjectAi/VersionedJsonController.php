@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Http;
 class VersionedJsonController extends Controller
 {
     /**
+     * Human-readable platform label
+     */
+    private function platformLabel(string $platform): string
+    {
+        return match ($platform) {
+            'android' => 'Android',
+            'ios'     => 'iOS',
+            'debug'   => 'Debug',
+            default   => ucfirst($platform),
+        };
+    }
+
+    /**
      * Base directory for versioned JSON files
      */
     private function basePath(string $platform = ''): string
@@ -93,53 +106,31 @@ class VersionedJsonController extends Controller
 
 
     // ─────────────────────────────────────────────
-    //  CLIENT APIs (3) — app calls these with version
+    //  CLIENT API (1) — app calls this with platform + version
     // ─────────────────────────────────────────────
 
     /**
-     * GET JSON for Android app by version
-     * POST /api/object-ai/android
-     * Body: { "key": "xxx", "version": "2.12.2" }
+     * POST config JSON for a given platform and version
+     * POST /api/object-ai/config
+     * Body: { "key": "xxx", "platform": "android", "version": "2.12.2" }
+     *
+     * Body params:
+     *   platform  — android | ios | debug
+     *   version   — semver string, e.g. 2.12.2
      */
-    public function getAndroidJson(Request $request)
-    {
-        return $this->getJsonByPlatform($request, 'android');
-    }
-
-    /**
-     * GET JSON for iOS app by version
-     * POST /api/object-ai/ios
-     * Body: { "key": "xxx", "version": "2.12.2" }
-     */
-    public function getIosJson(Request $request)
-    {
-        return $this->getJsonByPlatform($request, 'ios');
-    }
-
-    /**
-     * GET JSON for Debug mode by version
-     * POST /api/object-ai/debug
-     * Body: { "key": "xxx", "version": "2.12.2" }
-     */
-    public function getDebugJson(Request $request)
-    {
-        return $this->getJsonByPlatform($request, 'debug');
-    }
-
-    /**
-     * Common logic: find best version match and return JSON
-     */
-    private function getJsonByPlatform(Request $request, string $platform)
+    public function getFile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'version' => 'required|string',
+            'platform' => 'required|in:android,ios,debug',
+            'file_version'  => 'required|string',
         ]);
 
         if ($validator->fails()) {
-            return $this->error('version is required (e.g. 2.12.2)', 400);
+            return $this->error($validator->errors()->first(), 400);
         }
 
-        $requestedVersion = $request->input('version');
+        $platform         = $request->input('platform');
+        $requestedVersion = $request->input('file_version');
 
         $matchedVersion = $this->findBestVersion($platform, $requestedVersion);
 
@@ -153,11 +144,19 @@ class VersionedJsonController extends Controller
             return $this->error('Config file could not be read', 500);
         }
 
+        $label = $this->platformLabel($platform);
+        if ($matchedVersion === $requestedVersion) {
+            $msg = "Returning {$label} config for version {$matchedVersion}.";
+        } else {
+            $msg = "Requested {$requestedVersion} not available; returning {$label} config for nearest version {$matchedVersion}.";
+        }
+
         return $this->success([
-            'matched_version' => $matchedVersion,
+            'platform'          => $platform,
+            'matched_version'   => $matchedVersion,
             'requested_version' => $requestedVersion,
-            'config' => $data,
-        ]);
+            'config'            => $data,
+        ], $msg);
     }
 
 
@@ -173,9 +172,13 @@ class VersionedJsonController extends Controller
      */
     public function listVersions(Request $request)
     {
+        // optional platform filter -- must be one of the known platforms
         $platform = $request->input('platform');
-        $platforms = $platform ? [$platform] : ['android', 'ios', 'debug'];
+        if ($platform && !in_array($platform, ['android','ios','debug'])) {
+            return $this->error('Invalid platform, must be android, ios or debug', 400);
+        }
 
+        $platforms = $platform ? [$platform] : ['android', 'ios', 'debug'];
         $result = [];
 
         foreach ($platforms as $p) {
@@ -184,14 +187,26 @@ class VersionedJsonController extends Controller
                 $filePath = $this->basePath($p) . "/{$v}.json";
                 $result[] = [
                     'platform'   => $p,
-                    'version'    => $v,
+                    'file_version'    => $v,
                     'file_size'  => file_exists($filePath) ? filesize($filePath) : 0,
                     'updated_at' => file_exists($filePath) ? date('Y-m-d H:i:s', filemtime($filePath)) : null,
                 ];
             }
         }
 
-        return $this->success($result);
+        $count = count($result);
+        if ($platform) {
+            $label = $this->platformLabel($platform);
+            $msg = $count
+                ? "Found {$count} {$label} file" . ($count === 1 ? '' : 's')
+                : "No {$label} files found";
+        } else {
+            $msg = $count
+                ? "Found {$count} files across all platforms"
+                : 'No versioned files available';
+        }
+
+        return $this->success($result, $msg);
     }
 
     /**
@@ -203,7 +218,7 @@ class VersionedJsonController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'platform' => 'required|in:android,ios,debug',
-            'version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
+            'file_version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
             'file'     => 'required|file|extensions:json',
         ]);
 
@@ -212,7 +227,7 @@ class VersionedJsonController extends Controller
         }
 
         $platform = $request->input('platform');
-        $version  = $request->input('version');
+        $version  = $request->input('file_version');
         $destPath = $this->basePath($platform) . "/{$version}.json";
 
         // Check if already exists
@@ -241,10 +256,12 @@ class VersionedJsonController extends Controller
 
         Log::info("Versioned JSON created", ['platform' => $platform, 'version' => $version]);
 
+        $label = $this->platformLabel($platform);
+
         return $this->success([
             'platform' => $platform,
-            'version'  => $version,
-        ], 'Version created successfully');
+            'file_version'  => $version,
+        ], "JSON file for {$label} version {$version} has been created successfully.");
     }
 
     /**
@@ -256,7 +273,7 @@ class VersionedJsonController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'platform' => 'required|in:android,ios,debug',
-            'version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
+            'file_version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
             'file'     => 'required|file|extensions:json',
         ]);
 
@@ -265,7 +282,7 @@ class VersionedJsonController extends Controller
         }
 
         $platform = $request->input('platform');
-        $version  = $request->input('version');
+        $version  = $request->input('file_version');
         $destPath = $this->basePath($platform) . "/{$version}.json";
 
         // Check exists
@@ -289,10 +306,12 @@ class VersionedJsonController extends Controller
 
         Log::info("Versioned JSON updated", ['platform' => $platform, 'version' => $version]);
 
+        $label = $this->platformLabel($platform);
+
         return $this->success([
             'platform' => $platform,
-            'version'  => $version,
-        ], 'Version updated successfully');
+            'file_version'  => $version,
+        ], "JSON file for {$label} version {$version} has been updated successfully.");
     }
 
     /**
@@ -304,7 +323,7 @@ class VersionedJsonController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'platform' => 'required|in:android,ios,debug',
-            'version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
+            'file_version'  => ['required', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
         ]);
 
         if ($validator->fails()) {
@@ -312,7 +331,7 @@ class VersionedJsonController extends Controller
         }
 
         $platform = $request->input('platform');
-        $version  = $request->input('version');
+        $version  = $request->input('file_version');
         $destPath = $this->basePath($platform) . "/{$version}.json";
 
         if (!file_exists($destPath)) {
@@ -323,7 +342,9 @@ class VersionedJsonController extends Controller
 
         Log::info("Versioned JSON deleted", ['platform' => $platform, 'version' => $version]);
 
-        return $this->success(null, "Version {$version} for {$platform} deleted successfully");
+        $label = $this->platformLabel($platform);
+
+        return $this->success(null, "JSON file for {$label} version {$version} has been deleted successfully.");
     }
 
 

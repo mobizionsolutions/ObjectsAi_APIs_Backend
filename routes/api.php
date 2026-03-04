@@ -20,16 +20,15 @@ Route::post('ObjectAiupdateModelJsonFileForAndroid', [FileUploadController::clas
 Route::post('GetobjectAiJsonFileForAndroid', [FileUploadController::class, 'GetobjectAiJsonFileForAndroid']);
 
 // ─── Versioned Object AI APIs ───────────────────────────────
-// Client APIs (app calls these with version)
-Route::post('/object-ai/android', [VersionedJsonController::class, 'getAndroidJson']);
-Route::post('/object-ai/ios', [VersionedJsonController::class, 'getIosJson']);
-Route::post('/object-ai/debug', [VersionedJsonController::class, 'getDebugJson']);
+// Client API — single endpoint, platform + version in POST body
+// POST /api/object-ai/config   body: { "key": "xxx", "platform": "android", "version": "2.12.2" }
+Route::get('/object-ai/getFile', [VersionedJsonController::class, 'getFile']);
 
 // Admin APIs (manage versioned JSON files)
-Route::post('/object-ai/versions/list', [VersionedJsonController::class, 'listVersions']);
+Route::get('/object-ai/versions/list', [VersionedJsonController::class, 'listVersions']);
 Route::post('/object-ai/versions/create', [VersionedJsonController::class, 'createVersion']);
 Route::post('/object-ai/versions/update', [VersionedJsonController::class, 'updateVersion']);
-Route::post('/object-ai/versions/delete', [VersionedJsonController::class, 'deleteVersion']);
+Route::delete('/object-ai/versions/delete', [VersionedJsonController::class, 'deleteVersion']);
 
 
 Route::get('/user', function (Request $request) {

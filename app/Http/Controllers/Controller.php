@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     public function __construct(Request $request)
     {
-        $key = $request->input('key'); // Get key from JSON body
+        $key = $request->input('organization_key'); // Get key from JSON body
 
         logger([
             'received_key' => $key,
