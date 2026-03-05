@@ -523,7 +523,7 @@
             </button>
             <div class="api-key-group">
                 <label>API Key</label>
-                <input type="text" class="api-key-input" id="apiKey" placeholder="Enter your MODEL_API_KEY" oninput="onApiKeyInput()" />
+                <input type="text" class="api-key-input" id="apiKey" placeholder="Enter your organization_key" oninput="onApiKeyInput()" />
             </div>
         </div>
     </div>
@@ -695,7 +695,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3>Client API Test</h3>
-                    <span class="badge badge-method">POST</span>
+                    <span class="badge badge-method">GET</span>
                 </div>
                 <div class="card-body">
                     <div class="form-row-3">
@@ -722,8 +722,8 @@
                         </div>
                     </div>
                     <div class="endpoint-display" id="clientEndpoint">
-                        <span class="method">POST</span>
-                        <span>/api/object-ai/android</span>
+                        <span class="method">GET</span>
+                        <span>/object-ai/getFile</span>
                     </div>
                     <div class="response-panel" id="clientResponse" style="display:none;"></div>
                 </div>
@@ -868,15 +868,14 @@
             }
 
             const platform = document.getElementById('filterPlatform').value;
-            const body = { key };
-            if (platform) body.platform = platform;
+            const params = new URLSearchParams({ organization_key: key });
+            if (platform) params.append('platform', platform);
 
             try {
                 const start = Date.now();
-                const res = await fetch(`${BASE_URL}/object-ai/versions/list`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(body)
+                const res = await fetch(`${BASE_URL}/object-ai/versions/list?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
                 });
                 const data = await res.json();
                 const tbody = document.getElementById('versionsTableBody');
@@ -885,11 +884,11 @@
                     tbody.innerHTML = data.data.map(v => `
                         <tr>
                             <td>${platformBadge(v.platform)}</td>
-                            <td class="version-cell">${v.version}</td>
+                            <td class="version-cell">${v.file_version}</td>
                             <td>${formatBytes(v.file_size)}</td>
                             <td>${v.updated_at || '—'}</td>
                             <td style="text-align: right;">
-                                <button class="btn btn-danger btn-sm" onclick="openDeleteModal('${v.platform}', '${v.version}')">Delete</button>
+                                <button class="btn btn-danger btn-sm" onclick="openDeleteModal('${v.platform}', '${v.file_version}')">Delete</button>
                             </td>
                         </tr>
                     `).join('');
@@ -915,9 +914,9 @@
             if (!key) { showToast('Enter API key first', 'error'); return; }
 
             const formData = new FormData();
-            formData.append('key', key);
+            formData.append('organization_key', key);
             formData.append('platform', document.getElementById('createPlatform').value);
-            formData.append('version', document.getElementById('createVersion').value);
+            formData.append('file_version', document.getElementById('createVersion').value);
             formData.append('file', document.getElementById('createFile').files[0]);
 
             setLoading('createBtn', true);
@@ -970,16 +969,16 @@
             }
 
             try {
-                const res = await fetch(`${BASE_URL}/object-ai/versions/list`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ key, platform })
+                const params = new URLSearchParams({ organization_key: key, platform });
+                const res = await fetch(`${BASE_URL}/object-ai/versions/list?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
                 });
                 const data = await res.json();
 
                 if (data.status && data.data && data.data.length > 0) {
                     select.innerHTML = '<option value="">Select version...</option>' +
-                        data.data.map(v => `<option value="${v.version}">${v.version}</option>`).join('');
+                        data.data.map(v => `<option value="${v.file_version}">${v.file_version}</option>`).join('');
                 } else {
                     select.innerHTML = '<option value="">No versions found for ' + platform + '</option>';
                 }
@@ -996,9 +995,9 @@
             if (!key) { showToast('Enter API key first', 'error'); return; }
 
             const formData = new FormData();
-            formData.append('key', key);
+            formData.append('organization_key', key);
             formData.append('platform', document.getElementById('updatePlatform').value);
-            formData.append('version', document.getElementById('updateVersion').value);
+            formData.append('file_version', document.getElementById('updateVersion').value);
             formData.append('file', document.getElementById('updateFile').files[0]);
 
             setLoading('updateBtn', true);
@@ -1040,12 +1039,12 @@
             closeDeleteModal();
             try {
                 const res = await fetch(`${BASE_URL}/object-ai/versions/delete`, {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
-                        key,
+                        organization_key: key,
                         platform: pendingDelete.platform,
-                        version: pendingDelete.version
+                        file_version: pendingDelete.version
                     })
                 });
                 const data = await res.json();
@@ -1098,16 +1097,16 @@
             select.disabled = true;
 
             try {
-                const res = await fetch(`${BASE_URL}/object-ai/versions/list`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ key, platform })
+                const params = new URLSearchParams({ organization_key: key, platform });
+                const res = await fetch(`${BASE_URL}/object-ai/versions/list?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
                 });
                 const data = await res.json();
 
                 if (data.status && data.data && data.data.length > 0) {
                     select.innerHTML = '<option value="">Select version...</option>' +
-                        data.data.map(v => `<option value="${v.version}">${v.version}</option>`).join('');
+                        data.data.map(v => `<option value="${v.file_version}">${v.file_version}</option>`).join('');
                 } else {
                     select.innerHTML = `<option value="">No versions found for ${platform}</option>`;
                 }
@@ -1118,8 +1117,7 @@
             select.disabled = false;
         }
         function updateClientEndpoint() {
-            const p = document.getElementById('clientPlatform').value;
-            document.querySelector('#clientEndpoint span:last-child').textContent = `/api/object-ai/${p}`;
+            document.querySelector('#clientEndpoint span:last-child').textContent = `/object-ai/getFile`;
         }
 
         async function handleClientTest() {
@@ -1128,15 +1126,15 @@
 
             const platform = document.getElementById('clientPlatform').value;
             const version = document.getElementById('clientVersion').value.trim();
-            if (!version) { showToast('Enter a version to test', 'error'); return; }
+            if (!version) { showToast('Select a version to test', 'error'); return; }
 
             setLoading('clientBtn', true);
             const start = Date.now();
             try {
-                const res = await fetch(`${BASE_URL}/object-ai/${platform}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ key, version })
+                const params = new URLSearchParams({ organization_key: key, platform, file_version: version });
+                const res = await fetch(`${BASE_URL}/object-ai/getFile?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
                 });
                 const data = await res.json();
                 renderResponse('clientResponse', data, res.status, Date.now() - start);
