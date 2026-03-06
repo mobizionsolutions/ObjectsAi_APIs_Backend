@@ -52,10 +52,10 @@
         },
         "userTiers": {
             "free": {
-                "provider": "shared"
+                "provider": "3rd_party"
             },
             "pro": {
-                "provider": "shared"
+                "provider": "3rd_party"
             }
         },
         "imgTransport": "imgbb",
