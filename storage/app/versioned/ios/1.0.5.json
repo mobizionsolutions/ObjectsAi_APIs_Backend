@@ -52,17 +52,17 @@
         },
         "userTiers": {
             "free": {
-                "provider": "3rd_party"
+                "provider": "shared"
             },
             "pro": {
-                "provider": "3rd_party"
+                "provider": "shared"
             }
         },
         "imgTransport": "imgbb",
         "promoMode": false,
         "promoDays": 1,
         "freeLimits": {
-            "maxEdits": 6,
+            "maxEdits": 10,
             "resetAfterHours": 6
         }
     }
