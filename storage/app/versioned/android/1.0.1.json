@@ -1,8 +1,4 @@
- {
-    "platform": "android",
-    "matched_version": "1.0.1",
-    "requested_version": "1.0.1",
-    "config": {
+{
       "providers": {
         "shared": {
           "baseUrl": "https://modelslab.com/api/v6/interior/object_removal",
@@ -56,10 +52,10 @@
       },
       "userTiers": {
         "free": {
-          "provider": "3rd_party"
+          "provider": "shared"
         },
         "pro": {
-          "provider": "3rd_party"
+          "provider": "shared"
         }
       },
       "imgTransport": "imgbb",
@@ -70,4 +66,4 @@
         "resetAfterHours": 6
       }
     }
-  }
+  
