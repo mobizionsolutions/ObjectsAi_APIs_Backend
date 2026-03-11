@@ -55,7 +55,7 @@
           "provider": "shared"
         },
         "pro": {
-          "provider": "shared"
+          "provider": "3rd_party"
         }
       },
       "imgTransport": "imgbb",
