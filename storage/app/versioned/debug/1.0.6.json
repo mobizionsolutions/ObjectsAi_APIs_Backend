@@ -52,7 +52,7 @@
   },
   "userTiers": {
     "free": {
-      "magic_edit": "shared",
+      "magic_edit": "3rd_party",
       "auto_edit": "3rd_party",
       "change_background": "shared",
       "cartoonize": "shared"
