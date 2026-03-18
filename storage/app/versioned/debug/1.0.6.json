@@ -54,8 +54,8 @@
     "free": {
       "magic_edit": "3rd_party",
       "auto_edit": "3rd_party",
-      "change_background": "shared",
-      "cartoonize": "shared"
+      "change_background": "3rd_party",
+      "cartoonize": "3rd_party"
     },
     "pro": {
       "magic_edit": "shared",
