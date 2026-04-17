@@ -88,6 +88,16 @@
       "name": "Anime",
       "prompt": "Convert this image into a high-quality 3D anime cartoon style.Keep the subject clearly recognizable with expressive anime features, smooth 3D shading, soft lighting and vibrant but balanced colors.Use a polished animated-movie look with depth and clean details.",
       "imageUrl": "https://i.ibb.co/SXQ5ypX0/anime.png"
+    },
+    {
+      "name": "Cyber Punk",
+      "prompt": "Create a high-detail stylized digital illustration of the provided image while preserving the original subject, shape, proportions, colors, and overall composition exactly as they are. Apply dramatic cinematic lighting, bold color contrast, sharp clean details, and a polished futuristic/esports art style. Do NOT add any humans, faces, characters, animals, or new objects. Do not change the subject type. No random elements, no background replacement, and no distortions.",
+      "imageUrl": "https://i.ibb.co/1JKprspZ/cyber-punk.png"
+    },
+    {
+      "name": "Sketch",
+      "prompt": "Hand-drawn pencil sketch of the image, preserve face and expression, realistic sketchy line art, visible graphite pencil strokes, soft imperfect outlines, subtle shading, monochrome black and white, no colors, authentic handmade look, calm friendly mood, high-quality pencil drawing style.",
+      "imageUrl": "https://i.ibb.co/k6Bn1vtZ/sketch.png"
     }
   ],
   "imgTransport": "imgbb",
