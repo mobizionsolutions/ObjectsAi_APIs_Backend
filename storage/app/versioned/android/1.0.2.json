@@ -1,0 +1,111 @@
+{
+  "providers": {
+    "shared": {
+      "baseUrl": "https://modelslab.com/api/v6/interior/object_removal",
+      "params": {
+        "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+        "init_image": "",
+        "object_name": "",
+        "base64": false,
+        "webhook": null,
+        "safety_checker": true
+      }
+    },
+    "enterprise": {
+      "baseUrl": "https://modelslab.com/api/v1/enterprise/interior/object_removal",
+      "params": {
+        "key": "r2gdw350fzvt",
+        "init_image": "",
+        "object_name": "",
+        "base64": false,
+        "webhook": null,
+        "track_id": null
+      }
+    },
+    "3rd_party": {
+      "baseUrl": "https://modelslab.com/api/v7/images/image-to-image",
+      "params": {
+        "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+        "init_image": [],
+        "prompt": "",
+        "model_id": "seedream-5-lite-i2i"
+      }
+    },
+    "bgRemover": {
+      "baseUrl": "https://modelslab.com/api/v6/image_editing/removebg_mask",
+      "params": {
+        "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+        "image": "",
+        "alpha_matting": false,
+        "post_process_mask": false,
+        "only_mask": false,
+        "inverse_mask": false,
+        "seed": 123,
+        "base64": false,
+        "alpha_matting_foreground_threshold": 240,
+        "alpha_matting_background_threshold": 20,
+        "alpha_matting_erode_size": 5,
+        "webhook": null,
+        "track_id": 123
+      }
+    }
+  },
+  "userTiers": {
+    "free": {
+      "magic_edit": "shared",
+      "auto_edit": "shared",
+      "change_background": "shared",
+      "cartoonize": "shared"
+    },
+    "pro": {
+      "magic_edit": "shared",
+      "auto_edit": "shared",
+      "change_background": "shared",
+      "cartoonize": "shared"
+    }
+  },
+  "cartoonizeStyles": [
+    {
+      "name": "Ghibli",
+      "prompt": "Transform this image into a Studio Ghibli–inspired illustration.Keep the original subject (person, object, animal, or place) clearly recognizable, but reinterpret it in a soft, hand-painted Ghibli aesthetic.Use gentle, natural color palettes with warm tones and subtle gradients.Apply smooth brush strokes, delicate outlines, and a slightly dreamy, storybook feel.Lighting should be soft and atmospheric, like sunlight filtered through clouds or trees.Add a sense of calm, wonder, and quiet emotion, as if the scene is part of a peaceful animated film.Avoid sharp realism or heavy contrast—everything should feel organic, whimsical, and magical.The final image should look like a frame from a classic Ghibli movie.",
+      "imageUrl": "https://i.ibb.co/6ChxCsX/ghibli.png"
+    },
+    {
+      "name": "Chibli",
+      "prompt": "Convert this entire image into a chibi cartoon illustration while preserving the original subject and its features, key details, proportions, and overall scene identity, keeping the composition and background recognizable with clean line art, soft shading, vibrant or pastel colors, and high-quality sharp focus without adding random elements or distortions.",
+      "imageUrl": "https://i.ibb.co/qTGfKJz/chibli.png"
+    },
+    {
+      "name": "Pixar",
+      "prompt": "Convert the image into Pixar style 3D cartoon illustration , preserve face and expression, soft rounded facial features, large expressive eyes, smooth skin shading, realistic yet cute proportions, vibrant colors, cinematic soft lighting, friendly joyful mood, high quality animated movie character",
+      "imageUrl": "https://i.ibb.co/qF7qsS4n/pixar.png"
+    },
+    {
+      "name": "Disney",
+      "prompt": "Disney style cartoon illustration of a image, preserve face and expression, soft rounded facial features, large expressive eyes, smooth skin shading, vibrant yet soft colors, warm magical lighting, elegant modest outfit, friendly joyful mood, clean lines, high quality animated film style",
+      "imageUrl": "https://i.ibb.co/KpJwgvjb/disney.png"
+    },
+    {
+      "name": "Anime",
+      "prompt": "Convert this image into a high-quality 3D anime cartoon style.Keep the subject clearly recognizable with expressive anime features, smooth 3D shading, soft lighting and vibrant but balanced colors.Use a polished animated-movie look with depth and clean details.",
+      "imageUrl": "https://i.ibb.co/SXQ5ypX0/anime.png"
+    },
+    {
+      "name": "Cyber Punk",
+      "prompt": "Create a high-detail stylized digital illustration of the provided image while preserving the original subject, shape, proportions, colors, and overall composition exactly as they are. Apply dramatic cinematic lighting, bold color contrast, sharp clean details, and a polished futuristic/esports art style. Do NOT add any humans, faces, characters, animals, or new objects. Do not change the subject type. No random elements, no background replacement, and no distortions.",
+      "imageUrl": "https://i.ibb.co/1JKprspZ/cyber-punk.png"
+    },
+    {
+      "name": "Sketch",
+      "prompt": "Hand-drawn pencil sketch of the image, preserve face and expression, realistic sketchy line art, visible graphite pencil strokes, soft imperfect outlines, subtle shading, monochrome black and white, no colors, authentic handmade look, calm friendly mood, high-quality pencil drawing style.",
+      "imageUrl": "https://i.ibb.co/k6Bn1vtZ/sketch.png"
+    }
+  ],
+  "imgTransport": "imgbb",
+  "promoMode": false,
+  "promoDays": 1,
+  "freeLimits": {
+    "maxEdits": 4,
+    "resetAfterHours": 6
+  }
+}
