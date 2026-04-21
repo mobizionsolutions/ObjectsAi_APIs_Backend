@@ -6,8 +6,8 @@
         "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
         "init_image": "",
         "object_name": "",
-        "webhook": null,
         "base64": false,
+        "webhook": null,
         "safety_checker": true
       }
     },
@@ -52,10 +52,10 @@
   },
   "userTiers": {
     "free": {
-      "provider": "3rd_party"
+      "provider": "shared"
     },
     "pro": {
-      "provider": "3rd_party"
+      "provider": "shared"
     }
   },
   "imgTransport": "imgbb",
