@@ -7,7 +7,8 @@
         "init_image": "",
         "object_name": "",
         "base64": false,
-        "webhook": null
+        "webhook": null,
+        "safety_checker": true
       }
     },
     "enterprise": {
@@ -51,16 +52,16 @@
   },
   "userTiers": {
     "free": {
-      "magic_edit": "3rd_party",
-      "auto_edit": "3rd_party",
-      "change_background": "3rd_party",
-      "cartoonize": "3rd_party"
+      "magic_edit": "shared",
+      "auto_edit": "shared",
+      "change_background": "shared",
+      "cartoonize": "shared"
     },
     "pro": {
-      "magic_edit": "3rd_party",
-      "auto_edit": "3rd_party",
-      "change_background": "3rd_party",
-      "cartoonize": "3rd_party"
+      "magic_edit": "shared",
+      "auto_edit": "shared",
+      "change_background": "shared",
+      "cartoonize": "shared"
     }
   },
   "cartoonizeStyles": [
