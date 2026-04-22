@@ -63,6 +63,12 @@
       "cartoonize": "shared"
     }
   },
+  "enabledFeatures": [
+    "magic_edit",
+    "auto_edit",
+    "edit_background",
+    "cartoonize"
+  ],
   "cartoonizeStyles": [
     {
       "name": "Ghibli",
@@ -101,7 +107,6 @@
     }
   ],
   "imgTransport": "imgbb",
-  "autoEditPrompt": "remove nothing and do following do not remove watermarks, text or logos from the image auto enhance this image while keeping the original subject unchanged. Improve lighting color balance contrast and sharpness. Fix skin imperfections refine hair remove noise and improve clarity. Remove unwanted objects, remove watermark if present. If the background looks messy replace it with a realistic environment that fits the subject. Produce a natural high quality professional photo.",
   "promoMode": false,
   "promoDays": 1,
   "freeLimits": {
