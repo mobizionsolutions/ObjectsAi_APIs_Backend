@@ -1,0 +1,9 @@
+{
+    "title": "Sample JSON File",
+    "description": "This is a simple JSON file created for download.",
+    "content": [
+        "Hello Rabi!",
+        "This is your sample text inside a JSON file.",
+        "You can use this for testing or learning."
+    ]
+}
