@@ -65,6 +65,7 @@
   },
   "enabledFeatures": [
     "magic_edit",
+    "auto_edit",
     "edit_background",
     "cartoonize"
   ],
