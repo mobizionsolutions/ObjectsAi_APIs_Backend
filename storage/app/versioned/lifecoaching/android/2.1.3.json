@@ -1,9 +1,40 @@
 {
-    "title": "Sample JSON File",
-    "description": "This is a simple JSON file created for download.",
-    "content": [
-        "Hello Rabi!",
-        "This is your sample text inside a JSON file.",
-        "You can use this for testing or learning."
-    ]
+  "providers": {
+    "shared": {
+      "baseUrl": "https://api.modelslab.com/shared",
+      "input":[],
+      "params":{
+
+      }
+
+     
+    },
+    "enterprise": {
+      "baseUrl": "https://api.modelslab.com/enterprise",
+      "input":[],
+      "params":{
+        
+      }
+    
+    }
+  },
+
+    "userTiers": {
+    "free": {
+      "preferredProvider": "shared",
+      "fallbackProvider": "enterprise",
+      "maxAttempt": 1
+    },
+    "pro": {
+      "preferredProvider": "enterprise",
+      "fallbackProvider": "shared",
+      "maxAttempt": 2
+    }
+  },
+
+
+  "imgTransport":"base64"
+
 }
+
+
