@@ -64,6 +64,11 @@
       "cartoonize": "shared"
     }
   },
+  "enabledFeatures": [
+    "magic_edit",
+    "edit_background",
+    "cartoonize"
+  ],
   "cartoonizeStyles": [
     {
       "name": "Ghibli",
