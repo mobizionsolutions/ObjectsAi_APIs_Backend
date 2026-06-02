@@ -1,368 +1,357 @@
-# Versioned Object AI JSON APIs — Documentation
+# Versioned Object AI APIs - Current Documentation
 
 ## Overview
 
-A **file-based versioning system** for Object AI JSON configs. Each platform (Android, iOS, Debug) can have multiple JSON files tagged to app versions (e.g. `2.12.2`). The app requests its version, and the API returns the matching (or nearest lower) config.
+This project uses a file-based versioning system for Object AI JSON configs.
 
-**No database required** — the folder structure *is* the source of truth.
+- No database table is required for versioned files.
+- Files are grouped by user-selected folder name.
+- Each folder contains platform subfolders: android, ios, debug.
+- Version matching supports exact and nearest-lower fallback.
 
----
+## Storage Layout
 
-## Architecture
+Current storage root:
 
-### File Storage Structure
-
-```
-storage/app/versioned/
-├── android/
-│   ├── 2.12.2.json
-│   ├── 2.13.0.json
-│   └── 3.0.0.json
-├── ios/
-│   ├── 2.12.2.json
-│   └── 2.13.0.json
-└── debug/
-    └── 2.12.2.json
+```text
+storage/app/{folder_name}/{platform}/{file_version}.json
 ```
 
-- Each `.json` file is named after the app version it targets
-- The folder name is the platform (`android`, `ios`, `debug`)
-- Files are automatically synced to GitHub on create/update
+Example:
 
-### Files Added
+```text
+storage/app/release-may/android/2.12.2.json
+storage/app/release-may/ios/2.12.2.json
+storage/app/release-may/debug/2.12.2.json
+```
 
-| File | Purpose |
-|------|---------|
-| `app/Http/Controllers/ObjectAi/VersionedJsonController.php` | Controller with all 7 APIs |
-| `routes/api.php` | 7 new routes added |
-| `storage/app/versioned/{android,ios,debug}/` | Storage directories |
-| `ObjectAi_Versioned_APIs.postman_collection.json` | Postman collection for testing |
+Legacy folder support:
 
----
+- The folder named versioned is still listed and selectable in APIs/UI.
 
 ## Version Matching Logic
 
-When the app requests a version, the API uses **fallback matching**:
+For a given folder + platform + requested version:
 
-```
-App requests version "2.14.0"
-├── Exact match exists (2.14.0.json)?  → Return it
-└── No exact match?
-    └── Find highest version ≤ 2.14.0
-        ├── Found 2.13.0.json → Return it (fallback)
-        └── Nothing found → Return 404 error
-```
+1. Return exact file_version if present.
+2. Otherwise return the highest available version less than or equal to requested version.
+3. If none exists, return 404.
 
-**Example:** If versions `2.12.2` and `2.13.0` exist:
+Example with available versions 2.12.2 and 2.13.0:
 
-| App sends version | Returns | Why |
-|-------------------|---------|-----|
-| `2.12.2` | `2.12.2` | Exact match |
-| `2.12.5` | `2.12.2` | Nearest lower |
-| `2.13.0` | `2.13.0` | Exact match |
-| `2.15.0` | `2.13.0` | Nearest lower |
-| `1.0.0` | 404 error | No version ≤ 1.0.0 |
-
-This means you only need to upload a new config **when the JSON content actually changes**, not for every app release.
-
----
-
-## API Reference
-
-### Authentication
-
-All APIs require the `key` field in the request body, validated against the `MODEL_API_KEY` environment variable.
-
----
-
-### Client APIs (3) — App calls these
-
-#### 1. Get Android Config
-
-```
-POST /api/object-ai/android
-```
-
-**Request Body (JSON):**
-```json
-{
-    "key": "your_api_key",
-    "version": "2.12.2"
-}
-```
-
-**Success Response (200):**
-```json
-{
-    "status": true,
-    "message": "Success",
-    "data": {
-        "matched_version": "2.12.2",
-        "requested_version": "2.12.2",
-        "config": {
-            // ... contents of the JSON file
-        }
-    }
-}
-```
-
-**Error Response (404):**
-```json
-{
-    "status": false,
-    "message": "No JSON config found for android version 2.12.2"
-}
-```
-
----
-
-#### 2. Get iOS Config
-
-```
-POST /api/object-ai/ios
-```
-
-**Request Body (JSON):**
-```json
-{
-    "key": "your_api_key",
-    "version": "2.12.2"
-}
-```
-
-Same response format as Android.
-
----
-
-#### 3. Get Debug Config
-
-```
-POST /api/object-ai/debug
-```
-
-**Request Body (JSON):**
-```json
-{
-    "key": "your_api_key",
-    "version": "2.12.2"
-}
-```
-
-Same response format as Android.
-
----
-
-### Admin APIs (4) — Manage versioned files
-
-#### 4. List All Versions
-
-```
-POST /api/object-ai/versions/list
-```
-
-**Request Body (JSON):**
-```json
-{
-    "key": "your_api_key"
-}
-```
-
-**Filter by platform (optional):**
-```json
-{
-    "key": "your_api_key",
-    "platform": "android"
-}
-```
-
-**Success Response (200):**
-```json
-{
-    "status": true,
-    "message": "Success",
-    "data": [
-        {
-            "platform": "android",
-            "version": "2.12.2",
-            "file_size": 1024,
-            "updated_at": "2026-02-28 10:30:00"
-        },
-        {
-            "platform": "android",
-            "version": "2.13.0",
-            "file_size": 2048,
-            "updated_at": "2026-02-28 11:00:00"
-        },
-        {
-            "platform": "ios",
-            "version": "2.12.2",
-            "file_size": 1024,
-            "updated_at": "2026-02-28 10:30:00"
-        }
-    ]
-}
-```
-
----
-
-#### 5. Create Version
-
-```
-POST /api/object-ai/versions/create
-```
-
-**Request Body (form-data):**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `key` | text | Yes | API key |
-| `platform` | text | Yes | `android`, `ios`, or `debug` |
-| `version` | text | Yes | Semantic version (e.g. `2.12.2`) |
-| `file` | file | Yes | A `.json` file |
-
-**Validations:**
-- Version must match format `X.Y.Z` (digits only)
-- File must be valid JSON
-- Combination of platform + version must not already exist
-
-**Success Response (200):**
-```json
-{
-    "status": true,
-    "message": "Version created successfully",
-    "data": {
-        "platform": "android",
-        "version": "2.12.2"
-    }
-}
-```
-
-**Conflict Response (409):**
-```json
-{
-    "status": false,
-    "message": "Version 2.12.2 for android already exists. Use update instead."
-}
-```
-
----
-
-#### 6. Update Version
-
-```
-POST /api/object-ai/versions/update
-```
-
-**Request Body (form-data):**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `key` | text | Yes | API key |
-| `platform` | text | Yes | `android`, `ios`, or `debug` |
-| `version` | text | Yes | Version to update (e.g. `2.12.2`) |
-| `file` | file | Yes | Replacement `.json` file |
-
-**Validations:**
-- Version must already exist (use Create first)
-- File must be valid JSON
-
-**Success Response (200):**
-```json
-{
-    "status": true,
-    "message": "Version updated successfully",
-    "data": {
-        "platform": "android",
-        "version": "2.12.2"
-    }
-}
-```
-
-**Not Found Response (404):**
-```json
-{
-    "status": false,
-    "message": "Version 2.12.2 for android not found. Use create first."
-}
-```
-
----
-
-#### 7. Delete Version
-
-```
-POST /api/object-ai/versions/delete
-```
-
-**Request Body (JSON):**
-```json
-{
-    "key": "your_api_key",
-    "platform": "android",
-    "version": "2.12.2"
-}
-```
-
-**Success Response (200):**
-```json
-{
-    "status": true,
-    "message": "Version 2.12.2 for android deleted successfully",
-    "data": null
-}
-```
-
-**Not Found Response (404):**
-```json
-{
-    "status": false,
-    "message": "Version 2.12.2 for android not found"
-}
-```
-
----
-
-## GitHub Integration
-
-On **Create** and **Update**, files are automatically pushed to your GitHub repository:
-- Path: `storage/app/versioned/{platform}/{version}.json`
-- Commit message: `Add {platform} v{version} config` or `Update {platform} v{version} config`
-- Uses existing env variables: `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`, `GITHUB_TOKEN`, `GITHUB_BRANCH`
-
-If GitHub env variables are not configured, the upload is silently skipped (file is still saved locally).
-
----
-
-## Postman Collection
-
-Import `ObjectAi_Versioned_APIs.postman_collection.json` into Postman.
-
-**After importing:**
-1. Go to collection **Variables** tab
-2. Set `base_url` → your server URL (default: `http://127.0.0.1:8000/api`)
-3. Set `api_key` → your `MODEL_API_KEY` value
-
-**Testing order:**
-1. Create a version (e.g. android 2.12.2)
-2. Create another version (e.g. android 2.13.0)
-3. List versions — verify both appear
-4. Get Android with version `2.12.2` — exact match
-5. Get Android with version `2.14.0` — should fallback to `2.13.0`
-6. Get Android with version `1.0.0` — should return 404
-7. Update version `2.12.2` with a new file
-8. Delete version `2.12.2`
-9. List versions — verify only `2.13.0` remains
-
----
+- Request 2.12.2 -> returns 2.12.2
+- Request 2.12.5 -> returns 2.12.2
+- Request 2.15.0 -> returns 2.13.0
+- Request 1.0.0 -> 404
 
 ## Route Summary
 
+All routes are under api.php.
+
+```text
+GET    /api/object-ai/getFile
+GET    /api/object-ai/versions/list
+POST   /api/object-ai/versions/create
+POST   /api/object-ai/versions/update
+DELETE /api/object-ai/versions/delete
+
+GET    /api/object-ai/folders/list
+GET    /api/object-ai/folders/items
+POST   /api/object-ai/folders/create
+POST   /api/object-ai/folders/rename
+DELETE /api/object-ai/folders/delete
 ```
-POST /api/object-ai/android              → VersionedJsonController@getAndroidJson
-POST /api/object-ai/ios                  → VersionedJsonController@getIosJson
-POST /api/object-ai/debug               → VersionedJsonController@getDebugJson
-POST /api/object-ai/versions/list        → VersionedJsonController@listVersions
-POST /api/object-ai/versions/create      → VersionedJsonController@createVersion
-POST /api/object-ai/versions/update      → VersionedJsonController@updateVersion
-POST /api/object-ai/versions/delete      → VersionedJsonController@deleteVersion
+
+## API Details
+
+### 1) Get Config (client-facing)
+
+Endpoint:
+
+```text
+GET /api/object-ai/getFile
 ```
+
+Query params:
+
+- organization_key (string, required by UI/client flow)
+- folder_name (string, **optional**; defaults to **'versioned'** when omitted)
+- platform (android|ios|debug, required)
+- file_version (string, required)
+
+Examples:
+
+```text
+# With specific folder
+/api/object-ai/getFile?organization_key=abc&folder_name=release-may&platform=android&file_version=2.14.0
+
+# Without folder (uses default 'versioned')
+/api/object-ai/getFile?organization_key=abc&platform=android&file_version=2.14.0
+```
+
+Folder resolution behavior:
+
+- If `folder_name` is provided: API searches only in that folder.
+- If `folder_name` is omitted: API automatically uses the **'versioned'** folder as default.
+- This allows clients to request configs without explicitly specifying a folder name.
+
+Success response:
+
+```json
+{
+  "status": true,
+  "message": "Requested 2.14.0 not available; returning Android config for nearest version 2.13.0.",
+  "data": {
+    "platform": "android",
+    "folder_name": "versioned",
+    "matched_version": "2.13.0",
+    "requested_version": "2.14.0",
+    "config": {}
+  }
+}
+```
+
+**Note:** The `folder_name` in the response shows which folder was actually used. If you omitted it in the request, the response will show `"folder_name": "versioned"` (the default).
+
+### 2) List Versions
+
+Endpoint:
+
+```text
+GET /api/object-ai/versions/list
+```
+
+Query params:
+
+- organization_key (string, required by UI/client flow)
+- folder_name (string, optional)
+- platform (android|ios|debug, optional)
+
+Response item shape:
+
+```json
+{
+  "folder_name": "release-may",
+  "platform": "android",
+  "file_version": "2.12.2",
+  "file_size": 1024,
+  "updated_at": "2026-04-22 12:00:00"
+}
+```
+
+### 3) Create Version
+
+Endpoint:
+
+```text
+POST /api/object-ai/versions/create
+```
+
+Body (form-data):
+
+- organization_key (text)
+- folder_name (text, required)
+- platform (text, required)
+- file_version (text, required, regex X.Y.Z)
+- file (.json file, required)
+
+Behavior:
+
+- Creates directories if missing:
+  - storage/app/{folder_name}/android
+  - storage/app/{folder_name}/ios
+  - storage/app/{folder_name}/debug
+- Saves JSON at storage/app/{folder_name}/{platform}/{file_version}.json
+- Rejects duplicate version in same folder/platform.
+
+### 4) Update Version
+
+Endpoint:
+
+```text
+POST /api/object-ai/versions/update
+```
+
+Body (form-data):
+
+- organization_key (text)
+- folder_name (text, required)
+- platform (text, required)
+- file_version (text, required)
+- file (.json file, required)
+
+Behavior:
+
+- Replaces existing JSON file.
+- Returns 404 if version file does not exist.
+
+### 5) Delete Version
+
+Endpoint:
+
+```text
+DELETE /api/object-ai/versions/delete
+```
+
+Body (JSON):
+
+```json
+{
+  "organization_key": "abc",
+  "folder_name": "release-may",
+  "platform": "android",
+  "file_version": "2.12.2"
+}
+```
+
+### 6) List Folders
+
+Endpoint:
+
+```text
+GET /api/object-ai/folders/list
+```
+
+Returns all managed folders detected under storage/app that contain android/ios/debug subfolders, plus the legacy versioned folder if present.
+
+Response item:
+
+```json
+{
+  "folder_name": "release-may",
+  "platform_counts": {
+    "android": 2,
+    "ios": 1,
+    "debug": 1
+  },
+  "total_files": 4,
+  "created_at": "2026-04-22 11:00:00"
+}
+```
+
+### 7) List Folder Items (easy browse)
+
+Endpoint:
+
+```text
+GET /api/object-ai/folders/items
+```
+
+Query params:
+
+- organization_key (string)
+- folder_name (string, required)
+- platform (android|ios|debug, optional)
+
+Returns item list with relative_path.
+
+Example relative_path:
+
+```text
+release-may/android/2.12.2.json
+```
+
+### 8) Create Folder
+
+Endpoint:
+
+```text
+POST /api/object-ai/folders/create
+```
+
+Body (JSON):
+
+```json
+{
+  "organization_key": "abc",
+  "folder_name": "release-may"
+}
+```
+
+Creates folder and all platform subfolders under storage/app.
+
+### 9) Rename Folder
+
+Endpoint:
+
+```text
+POST /api/object-ai/folders/rename
+```
+
+Body (JSON):
+
+```json
+{
+  "organization_key": "abc",
+  "old_folder_name": "release-may",
+  "new_folder_name": "release-june"
+}
+```
+
+### 10) Delete Folder
+
+Endpoint:
+
+```text
+DELETE /api/object-ai/folders/delete
+```
+
+Body (JSON):
+
+```json
+{
+  "organization_key": "abc",
+  "folder_name": "release-june",
+  "force": true
+}
+```
+
+If force is false and files exist, API returns 409.
+
+## Validation Rules
+
+- folder_name regex: ^[a-z0-9][a-z0-9_-]{0,49}$
+- platform: android | ios | debug
+- file_version regex: ^\d+\.\d+\.\d+$
+- uploaded file must be valid JSON
+
+## GitHub Sync Behavior
+
+On create/update, API attempts GitHub sync if env variables exist:
+
+- GITHUB_REPO_OWNER
+- GITHUB_REPO_NAME
+- GITHUB_TOKEN
+- GITHUB_BRANCH (optional, defaults to main)
+
+Remote path used:
+
+```text
+storage/app/{folder_name}/{platform}/{file_version}.json
+```
+
+If GitHub env config is missing, file is still saved locally and sync is skipped.
+
+## UI Notes (Version Manager)
+
+### All Versions Tab
+- Filter by folder and/or platform
+- Displays all versions across selected folders
+- Can browse files in selected folder via Folder Items panel
+
+### Create & Update Tabs
+- **Folder selection is required** for creating/updating versions
+- Folder management features available (create/rename/delete folders)
+- Cannot proceed without selecting a folder
+
+### Client Test Tab (Get Config)
+- **Folder selection is optional**
+- Leave folder empty to use the default **'versioned'** folder
+- If a specific folder is selected, API uses that folder
+- This matches the optional folder_name parameter in the getFile API
+- Version dropdown loads versions based on selected platform and folder
+
+### General Features
+- Users can create/rename/delete folders via folder management controls
+- All operations respect the selected folder context
+- Folder Items panel shows all files within the currently selected folder

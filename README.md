@@ -121,7 +121,8 @@ Server runs at `http://127.0.0.1:8000`
 │   │   ├── models.json
 │   │   ├── object_ai_contents_android.json
 │   │   ├── object_ai_contents_ios.json
-│   │   └── versioned/         # Versioned content storage
+│   │   ├── versioned/         # Legacy folder, still supported
+│   │   └── {folder}/          # Current versioned content storage root (user-defined folders)
 │   └── ...
 ├── tests/
 │   ├── Feature/               # Feature tests

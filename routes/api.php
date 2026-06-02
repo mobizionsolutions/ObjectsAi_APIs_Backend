@@ -29,6 +29,11 @@ Route::get('/object-ai/versions/list', [VersionedJsonController::class, 'listVer
 Route::post('/object-ai/versions/create', [VersionedJsonController::class, 'createVersion']);
 Route::post('/object-ai/versions/update', [VersionedJsonController::class, 'updateVersion']);
 Route::delete('/object-ai/versions/delete', [VersionedJsonController::class, 'deleteVersion']);
+Route::get('/object-ai/folders/list', [VersionedJsonController::class, 'listFolders']);
+Route::get('/object-ai/folders/items', [VersionedJsonController::class, 'listFolderItems']);
+Route::post('/object-ai/folders/create', [VersionedJsonController::class, 'createFolder']);
+Route::post('/object-ai/folders/rename', [VersionedJsonController::class, 'renameFolder']);
+Route::delete('/object-ai/folders/delete', [VersionedJsonController::class, 'deleteFolder']);
 
 
 Route::get('/user', function (Request $request) {

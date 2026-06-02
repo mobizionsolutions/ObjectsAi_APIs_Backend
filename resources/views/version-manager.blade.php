@@ -472,8 +472,22 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 16px;
+            flex-wrap: wrap;
         }
         .filter-bar select { width: auto; min-width: 140px; }
+
+        .folder-manager {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .folder-manager h4 {
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
 
         /* Theme toggle */
         .header-right { display: flex; align-items: center; gap: 12px; }
@@ -510,11 +524,12 @@
     <div class="header">
         <div class="header-left">
             <div class="header-logo">
-                <img src="https://objectsai.app/wp-content/uploads/2023/04/Object-AI-site-icon.png" alt="Object AI" />
+                <!-- Optionally use a generic icon or leave blank -->
+                <span style="font-size: 2rem;">🗂️</span>
             </div>
             <div>
-                <div class="header-title">Object AI — Version Manager</div>
-                <div class="header-subtitle">Manage versioned JSON configs for Android, iOS & Debug</div>
+                <div class="header-title">API Version Manager</div>
+                <div class="header-subtitle">Manage versioned JSON configs for any platform</div>
             </div>
         </div>
         <div class="header-right">
@@ -558,12 +573,16 @@
                 <div class="card-header">
                     <h3>All Versioned Configs</h3>
                     <div class="filter-bar">
+                        <select id="filterFolder" onchange="loadVersions()">
+                            <option value="">All Folders</option>
+                        </select>
                         <select id="filterPlatform" onchange="loadVersions()">
                             <option value="">All Platforms</option>
                             <option value="android">Android</option>
                             <option value="ios">iOS</option>
                             <option value="debug">Debug</option>
                         </select>
+                        <button class="btn btn-ghost btn-sm" onclick="loadFolders()">📁 Refresh Folders</button>
                         <button class="btn btn-ghost btn-sm" onclick="loadVersions()">↻ Refresh</button>
                     </div>
                 </div>
@@ -572,6 +591,7 @@
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Folder</th>
                                     <th>Platform</th>
                                     <th>Version</th>
                                     <th>File Size</th>
@@ -581,7 +601,7 @@
                             </thead>
                             <tbody id="versionsTableBody">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="empty-state">
                                             <div class="icon">📂</div>
                                             <p>No versions loaded</p>
@@ -590,6 +610,26 @@
                                     </td>
                                 </tr>
                             </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-body" id="folderItemsCard" style="display:none; border-top: 1px solid var(--border);">
+                    <div class="card-header" style="padding: 0 0 12px 0; border: none;">
+                        <h3>Folder Items</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="loadFolderItems()">↻ Refresh Items</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Platform</th>
+                                    <th>Version</th>
+                                    <th>Path</th>
+                                    <th>File Size</th>
+                                    <th>Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="folderItemsTableBody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -607,6 +647,38 @@
                     <div class="endpoint-display">
                         <span class="method">POST</span>
                         <span>/object-ai/versions/create</span>
+                    </div>
+                    <div class="folder-manager">
+                        <h4>Folder Management</h4>
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label>Select Folder</label>
+                                <select id="createFolder" onchange="onCreateFolderChange()">
+                                    <option value="">Select folder...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>New Folder Name</label>
+                                <input type="text" id="newFolderName" placeholder="e.g. release-may" />
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="btn-group" style="margin-top: 0;">
+                                    <button type="button" class="btn btn-ghost btn-sm" onclick="createFolder()">Create Folder</button>
+                                    <button type="button" class="btn btn-ghost btn-sm" onclick="deleteSelectedFolder()">Delete Folder</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Rename Selected Folder To</label>
+                                <input type="text" id="renameFolderName" placeholder="e.g. release-june" />
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-ghost" onclick="renameSelectedFolder()">Rename Folder</button>
+                            </div>
+                        </div>
                     </div>
                     <form id="createForm" onsubmit="handleCreate(event)">
                         <div class="form-row">
@@ -657,6 +729,12 @@
                     <form id="updateForm" onsubmit="handleUpdate(event)">
                         <div class="form-row">
                             <div class="form-group">
+                                <label>Folder</label>
+                                <select id="updateFolder" required onchange="loadUpdateVersions()">
+                                    <option value="">Select folder...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Platform</label>
                                 <select id="updatePlatform" required onchange="loadUpdateVersions()">
                                     <option value="">Select platform...</option>
@@ -699,6 +777,12 @@
                 </div>
                 <div class="card-body">
                     <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Folder <span style="color: var(--text-muted); font-size: 12px;">(optional, defaults to "versioned")</span></label>
+                            <select id="clientFolder" onchange="loadClientVersions();">
+                                <option value="">Leave empty for default folder</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>Platform</label>
                             <select id="clientPlatform" onchange="updateClientEndpoint(); loadClientVersions();">
@@ -784,6 +868,7 @@
 
             if (tab === 'versions') loadVersions();
             if (tab === 'client') loadClientVersions();
+            if (tab === 'create' || tab === 'update') loadFolders();
         }
 
         // ───────────── Utils ─────────────
@@ -795,7 +880,194 @@
             // Auto-refresh version dropdowns if a platform is already selected
             const updatePlatform = document.getElementById('updatePlatform')?.value;
             if (updatePlatform) loadUpdateVersions();
+            loadFolders(false);
             loadClientVersions();
+            loadFolderItems();
+        }
+
+        function getSelectedFolder(selectId) {
+            return document.getElementById(selectId)?.value || '';
+        }
+
+        function applyFolderOptions(select, folders, preferredValue = '', includeAll = false) {
+            if (!select) return;
+            const current = preferredValue || select.value || '';
+            const options = folders.map(folder => `<option value="${folder}">${folder}</option>`).join('');
+            select.innerHTML = includeAll
+                ? `<option value="">All Folders</option>${options}`
+                : `<option value="">Select folder...</option>${options}`;
+            if (includeAll) {
+                select.value = folders.includes(current) ? current : '';
+            } else {
+                select.value = folders.includes(current) ? current : '';
+            }
+        }
+
+        function onCreateFolderChange() {
+            const selected = getSelectedFolder('createFolder');
+            const renameInput = document.getElementById('renameFolderName');
+            if (renameInput) renameInput.value = selected;
+            loadFolderItems(selected);
+        }
+
+        async function loadFolders(showErrorToast = true) {
+            const key = getApiKey();
+            const fallbackFolders = [];
+
+            if (!key) {
+                applyFolderOptions(document.getElementById('filterFolder'), fallbackFolders, '', true);
+                applyFolderOptions(document.getElementById('createFolder'), fallbackFolders);
+                applyFolderOptions(document.getElementById('updateFolder'), fallbackFolders);
+                applyFolderOptions(document.getElementById('clientFolder'), fallbackFolders);
+                onCreateFolderChange();
+                return;
+            }
+
+            try {
+                const params = new URLSearchParams({ organization_key: key });
+                const res = await fetch(`${BASE_URL}/object-ai/folders/list?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await res.json();
+
+                const folders = (data?.status && Array.isArray(data?.data))
+                    ? data.data.map(item => item.folder_name).filter(Boolean)
+                    : [];
+
+                const uniqueFolders = Array.from(new Set(folders)).sort();
+
+                applyFolderOptions(document.getElementById('filterFolder'), uniqueFolders, '', true);
+                applyFolderOptions(document.getElementById('createFolder'), uniqueFolders);
+                applyFolderOptions(document.getElementById('updateFolder'), uniqueFolders);
+                applyFolderOptions(document.getElementById('clientFolder'), uniqueFolders);
+                onCreateFolderChange();
+                loadFolderItems();
+            } catch (e) {
+                applyFolderOptions(document.getElementById('filterFolder'), fallbackFolders, '', true);
+                applyFolderOptions(document.getElementById('createFolder'), fallbackFolders);
+                applyFolderOptions(document.getElementById('updateFolder'), fallbackFolders);
+                applyFolderOptions(document.getElementById('clientFolder'), fallbackFolders);
+                if (showErrorToast) showToast('Failed to load folders: ' + e.message, 'error');
+            }
+        }
+
+        async function createFolder() {
+            const key = getApiKey();
+            if (!key) { showToast('Enter API key first', 'error'); return; }
+
+            const folderName = document.getElementById('newFolderName').value.trim().toLowerCase();
+            if (!folderName) { showToast('Enter a folder name', 'error'); return; }
+
+            try {
+                const res = await fetch(`${BASE_URL}/object-ai/folders/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ organization_key: key, folder_name: folderName })
+                });
+                const data = await res.json();
+                if (data.status) {
+                    showToast(`Folder ${folderName} created`);
+                    document.getElementById('newFolderName').value = '';
+                    await loadFolders(false);
+                    document.getElementById('createFolder').value = folderName;
+                    onCreateFolderChange();
+                    loadVersions();
+                    loadUpdateVersions();
+                    loadClientVersions();
+                } else {
+                    showToast(data.message || 'Folder create failed', 'error');
+                }
+            } catch (e) {
+                showToast('Folder create failed: ' + e.message, 'error');
+            }
+        }
+
+        async function renameSelectedFolder() {
+            const key = getApiKey();
+            if (!key) { showToast('Enter API key first', 'error'); return; }
+
+            const oldFolder = getSelectedFolder('createFolder');
+            const newFolder = document.getElementById('renameFolderName').value.trim().toLowerCase();
+
+            if (!newFolder) { showToast('Enter new folder name', 'error'); return; }
+            if (!oldFolder) { showToast('Select folder to rename', 'error'); return; }
+
+            try {
+                const res = await fetch(`${BASE_URL}/object-ai/folders/rename`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ organization_key: key, old_folder_name: oldFolder, new_folder_name: newFolder })
+                });
+                const data = await res.json();
+                if (data.status) {
+                    showToast(`Folder renamed to ${newFolder}`);
+                    document.getElementById('renameFolderName').value = '';
+                    await loadFolders(false);
+                    document.getElementById('createFolder').value = newFolder;
+                    onCreateFolderChange();
+                    loadVersions();
+                    loadUpdateVersions();
+                    loadClientVersions();
+                } else {
+                    showToast(data.message || 'Folder rename failed', 'error');
+                }
+            } catch (e) {
+                showToast('Folder rename failed: ' + e.message, 'error');
+            }
+        }
+
+        function deleteSelectedFolder() {
+            const folder = getSelectedFolder('createFolder');
+            if (!folder) {
+                showToast('Select folder to delete', 'error');
+                return;
+            }
+            openDeleteModal('folder', folder, '');
+        }
+
+        async function loadFolderItems(folderOverride = '') {
+            const key = getApiKey();
+            const selectedFolder = folderOverride || document.getElementById('filterFolder')?.value || getSelectedFolder('createFolder');
+            const card = document.getElementById('folderItemsCard');
+            const tbody = document.getElementById('folderItemsTableBody');
+
+            if (!card || !tbody) return;
+
+            if (!key || !selectedFolder) {
+                card.style.display = 'none';
+                tbody.innerHTML = '';
+                return;
+            }
+
+            card.style.display = 'block';
+            tbody.innerHTML = '<tr><td colspan="5">Loading folder items...</td></tr>';
+
+            try {
+                const params = new URLSearchParams({ organization_key: key, folder_name: selectedFolder });
+                const res = await fetch(`${BASE_URL}/object-ai/folders/items?${params}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await res.json();
+
+                const items = data?.data?.items || [];
+                if (data.status && items.length > 0) {
+                    tbody.innerHTML = items.map(item => `
+                        <tr>
+                            <td>${platformBadge(item.platform)}</td>
+                            <td class="version-cell">${item.file_version}</td>
+                            <td>${item.relative_path}</td>
+                            <td>${formatBytes(item.file_size)}</td>
+                            <td>${item.updated_at || '—'}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5">No files found in selected folder.</td></tr>';
+                }
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5">Failed to load folder items.</td></tr>';
+            }
         }
 
         function showToast(message, type = 'success') {
@@ -868,8 +1140,12 @@
             }
 
             const platform = document.getElementById('filterPlatform').value;
+            const folder = document.getElementById('filterFolder').value;
             const params = new URLSearchParams({ organization_key: key });
             if (platform) params.append('platform', platform);
+            if (folder) params.append('folder_name', folder);
+
+            loadFolderItems(folder);
 
             try {
                 const start = Date.now();
@@ -883,18 +1159,19 @@
                 if (data.status && data.data && data.data.length > 0) {
                     tbody.innerHTML = data.data.map(v => `
                         <tr>
+                            <td><span class="badge badge-method">${v.folder_name || '-'}</span></td>
                             <td>${platformBadge(v.platform)}</td>
                             <td class="version-cell">${v.file_version}</td>
                             <td>${formatBytes(v.file_size)}</td>
                             <td>${v.updated_at || '—'}</td>
                             <td style="text-align: right;">
-                                <button class="btn btn-danger btn-sm" onclick="openDeleteModal('${v.platform}', '${v.file_version}')">Delete</button>
+                                <button class="btn btn-danger btn-sm" onclick="openDeleteModal('version', '${v.folder_name}', '${v.platform}', '${v.file_version}')">Delete</button>
                             </td>
                         </tr>
                     `).join('');
                 } else {
                     tbody.innerHTML = `
-                        <tr><td colspan="5">
+                        <tr><td colspan="6">
                             <div class="empty-state">
                                 <div class="icon">📭</div>
                                 <p>No versioned configs found</p>
@@ -912,9 +1189,11 @@
             e.preventDefault();
             const key = getApiKey();
             if (!key) { showToast('Enter API key first', 'error'); return; }
+            if (!getSelectedFolder('createFolder')) { showToast('Select folder first', 'error'); return; }
 
             const formData = new FormData();
             formData.append('organization_key', key);
+            formData.append('folder_name', getSelectedFolder('createFolder'));
             formData.append('platform', document.getElementById('createPlatform').value);
             formData.append('file_version', document.getElementById('createVersion').value);
             formData.append('file', document.getElementById('createFile').files[0]);
@@ -932,12 +1211,15 @@
                 if (data.status) {
                     showToast('Version created successfully!');
                     document.getElementById('createForm').reset();
+                    document.getElementById('createFolder').value = data?.data?.folder_name || getSelectedFolder('createFolder');
                     const wrapper = document.getElementById('createFileWrapper');
                     wrapper.classList.remove('has-file');
                     wrapper.querySelector('.file-label').style.display = '';
                     wrapper.querySelector('.file-icon').textContent = '📄';
                     const nameEl = wrapper.querySelector('.file-name');
                     if (nameEl) nameEl.remove();
+                    loadVersions();
+                    loadUpdateVersions();
                 } else {
                     showToast(data.message || 'Create failed', 'error');
                 }
@@ -951,6 +1233,7 @@
         async function loadUpdateVersions() {
             const key = getApiKey();
             const platform = document.getElementById('updatePlatform').value;
+            const folder = getSelectedFolder('updateFolder');
             const select = document.getElementById('updateVersion');
 
             select.innerHTML = '<option value="">Loading...</option>';
@@ -962,6 +1245,12 @@
                 return;
             }
 
+            if (!folder) {
+                select.innerHTML = '<option value="">Select folder first...</option>';
+                select.disabled = false;
+                return;
+            }
+
             if (!key) {
                 select.innerHTML = '<option value="">Enter API key first...</option>';
                 select.disabled = false;
@@ -969,7 +1258,7 @@
             }
 
             try {
-                const params = new URLSearchParams({ organization_key: key, platform });
+                const params = new URLSearchParams({ organization_key: key, platform, folder_name: folder });
                 const res = await fetch(`${BASE_URL}/object-ai/versions/list?${params}`, {
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
@@ -993,9 +1282,11 @@
             e.preventDefault();
             const key = getApiKey();
             if (!key) { showToast('Enter API key first', 'error'); return; }
+            if (!getSelectedFolder('updateFolder')) { showToast('Select folder first', 'error'); return; }
 
             const formData = new FormData();
             formData.append('organization_key', key);
+            formData.append('folder_name', getSelectedFolder('updateFolder'));
             formData.append('platform', document.getElementById('updatePlatform').value);
             formData.append('file_version', document.getElementById('updateVersion').value);
             formData.append('file', document.getElementById('updateFile').files[0]);
@@ -1010,7 +1301,10 @@
                 });
                 const data = await res.json();
                 renderResponse('updateResponse', data, res.status, Date.now() - start);
-                if (data.status) showToast('Version updated!');
+                if (data.status) {
+                    showToast('Version updated!');
+                    loadVersions();
+                }
                 else showToast(data.message || 'Update failed', 'error');
             } catch (e) {
                 showToast('Request failed: ' + e.message, 'error');
@@ -1019,12 +1313,19 @@
         }
 
         // ───────────── DELETE VERSION ─────────────
-        let pendingDelete = { platform: '', version: '' };
+        let pendingDelete = { type: 'version', folder: '', platform: '', version: '' };
 
-        function openDeleteModal(platform, version) {
-            pendingDelete = { platform, version };
-            document.getElementById('deleteModalText').textContent =
-                `Are you sure you want to delete ${platform} v${version}? This cannot be undone.`;
+        function openDeleteModal(type, folder, platform = '', version = '') {
+            pendingDelete = { type, folder, platform, version };
+
+            if (type === 'folder') {
+                document.getElementById('deleteModalText').textContent =
+                    `Delete folder ${folder}? This removes all versions inside this folder and cannot be undone.`;
+            } else {
+                document.getElementById('deleteModalText').textContent =
+                    `Are you sure you want to delete ${folder}/${platform} v${version}? This cannot be undone.`;
+            }
+
             document.getElementById('deleteModal').classList.add('active');
         }
 
@@ -1038,19 +1339,43 @@
 
             closeDeleteModal();
             try {
-                const res = await fetch(`${BASE_URL}/object-ai/versions/delete`, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        organization_key: key,
-                        platform: pendingDelete.platform,
-                        file_version: pendingDelete.version
-                    })
-                });
+                let res;
+
+                if (pendingDelete.type === 'folder') {
+                    res = await fetch(`${BASE_URL}/object-ai/folders/delete`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({
+                            organization_key: key,
+                            folder_name: pendingDelete.folder,
+                            force: true
+                        })
+                    });
+                } else {
+                    res = await fetch(`${BASE_URL}/object-ai/versions/delete`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({
+                            organization_key: key,
+                            folder_name: pendingDelete.folder,
+                            platform: pendingDelete.platform,
+                            file_version: pendingDelete.version
+                        })
+                    });
+                }
+
                 const data = await res.json();
                 if (data.status) {
-                    showToast(`Deleted ${pendingDelete.platform} v${pendingDelete.version}`);
+                    if (pendingDelete.type === 'folder') {
+                        showToast(`Deleted folder ${pendingDelete.folder}`);
+                        await loadFolders(false);
+                    } else {
+                        showToast(`Deleted ${pendingDelete.folder}/${pendingDelete.platform} v${pendingDelete.version}`);
+                    }
                     loadVersions();
+                    loadUpdateVersions();
+                    loadClientVersions();
+                    loadFolderItems();
                 } else {
                     showToast(data.message || 'Delete failed', 'error');
                 }
@@ -1086,6 +1411,7 @@
         async function loadClientVersions() {
             const key = getApiKey();
             const platform = document.getElementById('clientPlatform').value;
+            const folder = getSelectedFolder('clientFolder');
             const select = document.getElementById('clientVersion');
 
             if (!key) {
@@ -1098,6 +1424,9 @@
 
             try {
                 const params = new URLSearchParams({ organization_key: key, platform });
+                if (folder) {
+                    params.append('folder_name', folder);
+                }
                 const res = await fetch(`${BASE_URL}/object-ai/versions/list?${params}`, {
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
@@ -1124,6 +1453,7 @@
             const key = getApiKey();
             if (!key) { showToast('Enter API key first', 'error'); return; }
 
+            const folder = getSelectedFolder('clientFolder');
             const platform = document.getElementById('clientPlatform').value;
             const version = document.getElementById('clientVersion').value.trim();
             if (!version) { showToast('Select a version to test', 'error'); return; }
@@ -1132,6 +1462,9 @@
             const start = Date.now();
             try {
                 const params = new URLSearchParams({ organization_key: key, platform, file_version: version });
+                if (folder) {
+                    params.append('folder_name', folder);
+                }
                 const res = await fetch(`${BASE_URL}/object-ai/getFile?${params}`, {
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
@@ -1143,6 +1476,8 @@
             }
             setLoading('clientBtn', false);
         }
+
+        loadFolders(false);
     </script>
 </body>
 </html>
