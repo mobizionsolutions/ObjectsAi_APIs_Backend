@@ -1,0 +1,26 @@
+{
+  "providers": {
+    "grok": {
+      "baseUrl": "https://modelslab.com/api/v7/images/image-to-image",
+      "params": {
+        "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+        "init_image": [],
+        "prompt": "",
+        "aspect_ratio": "",
+        "resolution": "1k",
+        "model_id": "grok-imagine-image-i2i"
+      }
+    },
+    "seedream": {
+      "baseUrl": "https://modelslab.com/api/v7/images/image-to-image",
+      "params": {
+        "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
+        "init_image": [],
+        "prompt": "",
+        "model_id": "seedream-5-lite-i2i"
+      }
+    }
+  },
+  "apiProvider": "grok",
+  "freeLimits": 4
+}
