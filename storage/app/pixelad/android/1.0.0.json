@@ -17,6 +17,7 @@
         "key": "KCjRGNpfJnDsVX67ycms86Gi5UTYaoERXVrqJ1cUvb4AnN7wCuskydjAUN21",
         "init_image": [],
         "prompt": "",
+        "aspect_ratio": "",
         "model_id": "seedream-5-lite-i2i"
       }
     }
