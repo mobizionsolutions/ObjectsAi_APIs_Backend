@@ -22,6 +22,6 @@
       }
     }
   },
-  "apiProvider": "seedream",
+  "apiProvider": "grok",
   "freeLimits": 2
 }
