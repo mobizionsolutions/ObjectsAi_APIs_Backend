@@ -111,7 +111,7 @@
   "promoMode": false,
   "promoDays": 1,
   "freeLimits": {
-    "maxEdits": 100,
+    "maxEdits": 4,
     "resetAfterHours": 6
   }
 }
